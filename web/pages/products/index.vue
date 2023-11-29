@@ -1,0 +1,112 @@
+<template>
+  <div class="p-10">
+    <div class="card card-compact w-full bg-base-100 shadow-xl">
+      <div class="card-body">
+        <div class="grid grid-cols-6 gap-4">
+          <div class="col-start-1 col-end-3">
+            <h2 class="card-title">
+              Products 
+              <button class="btn btn-neutral btn-xs" @click="handleFetchProducts(1)">
+                <div v-if="loading">
+                  <span class="loading loading-spinner loading-xs"></span>
+                </div>
+                <div v-else>Fetch Products</div>
+              </button>
+            </h2>
+          </div>
+          <div class="col-end-8 col-span-1">
+            <button class="btn btn-primary btn-xs" onclick="create_form_modal.showModal()">
+              Add
+            </button>
+          </div>
+        </div>
+        <div class="m-2">
+          <div class="overflow-x-auto">
+            <ProductsTableLoader v-if="loading" />
+            <ProductsTable 
+              v-else 
+              :products="products"
+              :paginates="paginates"
+              :page="page"
+              @handleFetchProducts="handleFetchProducts" 
+              @handleProductDetails="handleProductDetails" 
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <dialog id="my_modal_1" class="modal">
+      <div class="card w-96 bg-base-100 shadow-xl">
+        <figure><img :src="productDetails.thumbnail" height="50" alt="Shoes" /></figure>
+        <div class="pt-2 pb-4 px-4">
+          <div class="text-sm">
+            <div class="grid grid-cols-5">
+              <div class="col-span-3">
+                <span class="text-xs text-gray-400">
+                  {{ productDetails.brand }}
+                </span>
+                <p>{{ productDetails.title }}</p>
+              </div>
+              <div class="col-span-1 justify-self-end">
+                <span class="text-xs text-gray-400">Stock</span>
+                <p>{{ productDetails.stock }}</p>
+              </div>
+              <div class="col-span-1 justify-self-end">
+                <span class="text-xs text-gray-400">Price</span>
+                <p>${{ productDetails.price }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="modal-action">
+            <form method="dialog">
+              <button class="btn btn-sm">Close</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </dialog>
+    <dialog id="create_form_modal" class="modal">
+      <div class="card w-96 bg-base-100">
+        <ProductForm />
+
+        <!-- <div class="modal-action">
+          <form method="dialog">
+            <button class="btn btn-sm">Close</button>
+          </form>
+        </div> -->
+      </div>
+    </dialog>
+  </div>
+</template>
+
+<script setup lang="ts">
+  import { useProductsStore } from '~/stores/productsStore';
+  import { ProductInfo } from '~/stores/productsStore';
+
+  const { fetchProducts } = useProductsStore();
+  const store = useProductsStore();
+  const products = computed(() => store.products);
+  const loading = computed(() => store.loading);
+  const skip = computed(() => store.skip);
+  const limit = computed(() => store.limit);
+  const total = computed(() => store.total);
+  const paginates = computed(() => total.value / limit.value);
+  const page = ref(1);
+  const productDetails = ref({});
+  const handleFetchProducts = async (pageNum: number) => {
+    page.value = pageNum;
+    let skipVal = (pageNum * limit.value) - 10;
+    await fetchProducts(skipVal);
+  };
+  const handleProductDetails = (data: object) => {
+    console.log(data)
+    productDetails.value = data;
+  };
+
+  onMounted(async () => await handleFetchProducts(1));
+
+</script>
+
+<style scoped>
+
+</style>
