@@ -59,16 +59,11 @@
   });
 
   const emit = defineEmits([
-    'handleFetchProducts', 
+    'handleProductFetch', 
     'handleProductDetails'
   ]);
 
-  const handleDetails = (data: Object) => {
-    emit('handleProductDetails', data);
-  }
-
-  const handlePageFetch = (num: Number) => {
-    emit('handleFetchProducts', num);
-  }
+  const handleDetails = (data: Object) => emit('handleProductDetails', data);
+  const handlePageFetch = (num: Number) => emit('handleProductFetch', num);
 
 </script>

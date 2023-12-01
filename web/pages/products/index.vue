@@ -6,7 +6,7 @@
           <div class="col-start-1 col-end-3">
             <h2 class="card-title">
               Products 
-              <button class="btn btn-neutral btn-xs" @click="handleFetchProducts(1)">
+              <button class="btn btn-neutral btn-xs" @click="handleProductFetch(1)">
                 <div v-if="loading">
                   <span class="loading loading-spinner loading-xs"></span>
                 </div>
@@ -28,7 +28,7 @@
               :products="products"
               :paginates="paginates"
               :page="page"
-              @handleFetchProducts="handleFetchProducts" 
+              @handleProductFetch="handleProductFetch" 
               @handleProductDetails="handleProductDetails" 
             />
           </div>
@@ -48,7 +48,7 @@
                 <p>{{ productDetails.title }}</p>
               </div>
               <div class="col-span-1 justify-self-end">
-                <span class="text-xs text-gray-400">Stock</span>
+                <span class="text-xs text-gray-400">Stocks</span>
                 <p>{{ productDetails.stock }}</p>
               </div>
               <div class="col-span-1 justify-self-end">
@@ -67,23 +67,26 @@
     </dialog>
     <dialog id="create_form_modal" class="modal">
       <div class="card w-96 bg-base-100">
-        <ProductForm />
-
-        <!-- <div class="modal-action">
+        <ProductForm 
+          :formData="newProductDetails" 
+          @handleProductCreate="handleProductCreate" 
+        />
+        <div class="w-full px-8 pb-4 pt-0">
           <form method="dialog">
-            <button class="btn btn-sm">Close</button>
+            <button class="btn btn-block btn-ghost">Close</button>
           </form>
-        </div> -->
+        </div>
       </div>
     </dialog>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { useProductsStore } from '~/stores/productsStore';
-  import { ProductInfo } from '~/stores/productsStore';
 
-  const { fetchProducts } = useProductsStore();
+  import { useProductsStore } from '~/stores/productsStore';
+  import { TProductInfo, ProductInit } from '~/stores/productsStore';
+
+  const { fetchProducts, createProducts } = useProductsStore();
   const store = useProductsStore();
   const products = computed(() => store.products);
   const loading = computed(() => store.loading);
@@ -92,19 +95,17 @@
   const total = computed(() => store.total);
   const paginates = computed(() => total.value / limit.value);
   const page = ref(1);
+  const newProductDetails = ref<TProductInfo>(ProductInit);
   const productDetails = ref({});
-  const handleFetchProducts = async (pageNum: number) => {
+  const handleProductFetch = async (pageNum: number) => {
     page.value = pageNum;
     let skipVal = (pageNum * limit.value) - 10;
     await fetchProducts(skipVal);
   };
-  const handleProductDetails = (data: object) => {
-    console.log(data)
-    productDetails.value = data;
-  };
-
-  onMounted(async () => await handleFetchProducts(1));
-
+  await handleProductFetch(1);
+  const handleProductDetails = (data: object) => productDetails.value = data;
+  const handleProductCreate = (data: object) => createProducts(data);
+  
 </script>
 
 <style scoped>
