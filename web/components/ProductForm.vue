@@ -41,6 +41,9 @@
       <div class="mt-10 mb-2">
         <button type="button" @click="create" class="btn btn-block btn-primary">Submit</button>
       </div>
+      <div class="w-full px-8 pb-4 pt-0">
+        <button class="btn btn-block btn-ghost" @click="handleModal">Close</button>
+      </div>
     </form>
   </div>
 </template>
@@ -55,8 +58,10 @@
 
   const emit = defineEmits([
     'handleProductCreate', 
+    'handleModalCreate'
   ]);
 
   const create = () => emit('handleProductCreate', props.formData);
+  const handleModal = () => emit('handleModalCreate');
   
 </script>

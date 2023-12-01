@@ -1,5 +1,5 @@
 <template>
-  <div class="p-10">
+  <div class="p-10" :data-theme="theme">
     <div class="card card-compact w-full bg-base-100 shadow-xl">
       <div class="card-body">
         <div class="grid grid-cols-6 gap-4">
@@ -15,16 +15,15 @@
             </h2>
           </div>
           <div class="col-end-8 col-span-1">
-            <button class="btn btn-primary btn-xs" onclick="create_form_modal.showModal()">
+            <button class="btn btn-primary btn-xs" @click="handleModalCreate">
               Add
             </button>
           </div>
         </div>
         <div class="m-2">
           <div class="overflow-x-auto">
-            <ProductsTableLoader v-if="loading" />
             <ProductsTable 
-              v-else 
+              v-if="products.length > 0"
               :products="products"
               :paginates="paginates"
               :page="page"
@@ -65,19 +64,16 @@
         </div>
       </div>
     </dialog>
-    <dialog id="create_form_modal" class="modal">
+    <dialog :class="{ 'modal': true, 'modal-open': modalCreate }">
       <div class="card w-96 bg-base-100">
         <ProductForm 
           :formData="newProductDetails" 
-          @handleProductCreate="handleProductCreate" 
+          @handleProductCreate="handleProductCreate"
+          @handleModalCreate="handleModalCreate"
         />
-        <div class="w-full px-8 pb-4 pt-0">
-          <form method="dialog">
-            <button class="btn btn-block btn-ghost">Close</button>
-          </form>
-        </div>
       </div>
     </dialog>
+    <Loaders :type="1" :isOpen="loading" />
   </div>
 </template>
 
@@ -94,9 +90,13 @@
   const limit = computed(() => store.limit);
   const total = computed(() => store.total);
   const paginates = computed(() => total.value / limit.value);
+
+  const theme = ref("light");
   const page = ref(1);
   const newProductDetails = ref<TProductInfo>(ProductInit);
-  const productDetails = ref({});
+  const productDetails = ref<TProductInfo>(ProductInit);
+  const modalCreate = ref(false);
+
   const handleProductFetch = async (pageNum: number) => {
     page.value = pageNum;
     let skipVal = (pageNum * limit.value) - 10;
@@ -104,10 +104,11 @@
   };
   await handleProductFetch(1);
   const handleProductDetails = (data: object) => productDetails.value = data;
-  const handleProductCreate = (data: object) => createProducts(data);
+  const handleProductCreate = async (data: object) => {
+    handleModalCreate();
+    await createProducts(data);
+    console.log("wew",ProductInit)
+  }
+  const handleModalCreate = () => modalCreate.value == true ? modalCreate.value = false : modalCreate.value = true;
   
 </script>
-
-<style scoped>
-
-</style>

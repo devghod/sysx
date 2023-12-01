@@ -16,6 +16,20 @@ export const useProductsStore = defineStore('products', {
   },
 
   actions: {
+    init() {
+      ProductInit.id = 0;
+      ProductInit.title = '';
+      ProductInit.description = '';
+      ProductInit.price = 0;
+      ProductInit.discountPercentage = 0;
+      ProductInit.rating = 0;
+      ProductInit.stock = 0;
+      ProductInit.brand = '';
+      ProductInit.category = '';
+      ProductInit.thumbnail = '';
+      ProductInit.images = [];
+    },
+
     async fetchProducts(skipNum: number) {
       this.loading = true;
 
@@ -33,13 +47,19 @@ export const useProductsStore = defineStore('products', {
     },
 
     async createProducts(prdct: object) {
+      this.loading = true;
       const { data }: any = await useLazyFetch('https://dummyjson.com/products/add', {
         method: "post",
         body: prdct
       });
+
       let result = toRaw(data.value);
       console.log("Successfully Created:", result);
-    }
+      this.init();
+      this.loading = false;
+      
+      return true;
+    },
   }
 
 })
