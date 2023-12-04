@@ -82,7 +82,7 @@
   import { useProductsStore } from '~/stores/productsStore';
   import { TProductInfo, ProductInit } from '~/stores/productsStore';
 
-  const { fetchProducts, createProducts } = useProductsStore();
+  const { fetchProducts, createProducts, init } = useProductsStore();
   const store = useProductsStore();
   const products = computed(() => store.products);
   const loading = computed(() => store.loading);
@@ -107,8 +107,10 @@
   const handleProductCreate = async (data: object) => {
     handleModalCreate();
     await createProducts(data);
-    console.log("wew",ProductInit)
   }
-  const handleModalCreate = () => modalCreate.value == true ? modalCreate.value = false : modalCreate.value = true;
+  const handleModalCreate = () => {
+    modalCreate.value == true ? modalCreate.value = false : modalCreate.value = true;
+    init();
+  }
   
 </script>
