@@ -80,7 +80,8 @@
 <script setup lang="ts">
 
   import { useProductsStore } from '~/stores/productsStore';
-  import { TProductInfo, ProductInit } from '~/stores/productsStore';
+  import { ProductInit } from '~/stores/productsStore';
+  import type { TProductInfo } from '~/stores/productsStore';
 
   const { fetchProducts, createProducts, init } = useProductsStore();
   const store = useProductsStore();

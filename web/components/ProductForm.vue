@@ -50,7 +50,7 @@
 
 <script setup lang="ts">
 
-  import { TProductInfo } from '~/stores/productsStore';
+  import type { TProductInfo } from '~/stores/productsStore';
 
   const props = defineProps<{
     formData: TProductInfo;

@@ -75,7 +75,7 @@
         "../node_modules/@nuxt/image/dist/runtime/*"
       ],
       "#icon-collections": [
-        "./icon-collections.mjs"
+        "./icon-collections"
       ],
       "#vue-router": [
         "./vue-router-stub"
