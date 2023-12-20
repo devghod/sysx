@@ -73,7 +73,7 @@
         />
       </div>
     </dialog>
-    <Loaders :type="1" :isOpen="loading" />
+    <Loaders :type="2" :isOpen="loading" />
   </div>
 </template>
 

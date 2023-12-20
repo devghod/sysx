@@ -13,6 +13,8 @@
     "strict": true,
     "noImplicitThis": true,
     "esModuleInterop": true,
+    "types": [],
+    "verbatimModuleSyntax": true,
     "allowJs": true,
     "noEmit": true,
     "resolveJsonModule": true,
@@ -45,6 +47,9 @@
       "assets": [
         "../assets"
       ],
+      "assets/*": [
+        "../assets/*"
+      ],
       "public": [
         "../public"
       ],
@@ -63,8 +68,17 @@
       "pinia": [
         "../node_modules/pinia/dist/pinia"
       ],
+      "#image": [
+        "../node_modules/@nuxt/image/dist/runtime"
+      ],
+      "#image/*": [
+        "../node_modules/@nuxt/image/dist/runtime/*"
+      ],
+      "#icon-collections": [
+        "./icon-collections.mjs"
+      ],
       "#vue-router": [
-        "./vue-router"
+        "./vue-router-stub"
       ],
       "#imports": [
         "./imports"
@@ -85,6 +99,8 @@
     "../**/*",
     "../node_modules/@nuxtjs/tailwindcss/runtime",
     "../node_modules/@pinia/nuxt/runtime",
+    "../node_modules/@nuxt/image/runtime",
+    "../node_modules/nuxt-icon/runtime",
     "../node_modules/@nuxt/devtools/runtime",
     "../node_modules/@nuxt/telemetry/runtime",
     ".."
@@ -95,6 +111,8 @@
     "../node_modules/nuxt/node_modules",
     "../node_modules/@nuxtjs/tailwindcss/runtime/server",
     "../node_modules/@pinia/nuxt/runtime/server",
+    "../node_modules/@nuxt/image/runtime/server",
+    "../node_modules/nuxt-icon/runtime/server",
     "../node_modules/@nuxt/devtools/runtime/server",
     "../node_modules/@nuxt/telemetry/runtime/server",
     "../dist",

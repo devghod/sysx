@@ -4,6 +4,8 @@ export default defineNuxtConfig({
   modules: [
     "@nuxtjs/tailwindcss",
     "@pinia/nuxt",
+    "@nuxt/image",
+    "nuxt-icon",
   ],
   pinia: {
     storesDirs: ['./stores/**', './custom-folder/stores/**'],
@@ -42,5 +44,8 @@ export default defineNuxtConfig({
   },
   devServer: {
     port: 5102
+  },
+  image: {
+    dir: 'assets/images',
   },
 })
