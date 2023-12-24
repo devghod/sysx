@@ -1,36 +1,40 @@
 <template>
-  <div class="p-10" :data-theme="theme">
-    <div class="card card-compact w-full bg-base-100 shadow-xl">
-      <div class="card-body">
-        <div class="grid grid-cols-6 gap-4">
-          <div class="col-start-1 col-end-3">
-            <h2 class="card-title">
-              Products 
-              <button class="btn btn-neutral btn-xs" @click="handleProductFetch(1)">
-                <div v-if="loading">
-                  <span class="loading loading-spinner loading-xs"></span>
-                </div>
-                <div v-else>Fetch Products</div>
-              </button>
-            </h2>
-          </div>
-          <div class="col-end-8 col-span-1">
-            <button class="btn btn-primary btn-xs" @click="handleModalCreate">
-              Add
+  <div>
+    <div class="w-full shadow rounded border">
+      <div class="grid grid-cols-6 gap-4 pt-3 px-3">
+        <div class="col-start-1 col-end-3">
+          <div class="">
+            <span class="font-medium tracking-wide mr-2">Products</span> 
+            <button class="btn btn-neutral btn-xs" @click="handleProductFetch(1)">
+              <div v-if="loading">
+                <span class="loading loading-spinner loading-xs"></span>
+              </div>
+              <div v-else>Fetch Products</div>
             </button>
           </div>
         </div>
-        <div class="m-2">
-          <div class="overflow-x-auto">
-            <ProductsTable 
-              v-if="products.length > 0"
-              :products="products"
-              :paginates="paginates"
-              :page="page"
-              @handleProductFetch="handleProductFetch" 
-              @handleProductDetails="handleProductDetails" 
+        <div class="col-end-8 col-span-1">
+          <button class="btn btn-circle btn-sm" @click="handleModalCreate">
+            <Icon 
+              name="lets-icons:add-duotone"
+              color="green" 
+              height="30"
+              width="30"
             />
-          </div>
+          </button>
+        </div>
+      </div>
+      <div class="divider mt-0"></div> 
+      <div class="">
+        <div class="overflow-x-auto">
+          <ProductsTable 
+            v-if="products.length > 0"
+            :products="products"
+            :paginates="paginates"
+            :page="page"
+            @handleProductFetch="handleProductFetch" 
+            @handleProductDetails="handleProductDetails" 
+          />
         </div>
       </div>
     </div>
@@ -79,9 +83,9 @@
 
 <script setup lang="ts">
 
-  import { useProductsStore } from '~/stores/productsStore';
-  import { ProductInit } from '~/stores/productsStore';
-  import type { TProductInfo } from '~/stores/productsStore';
+  import { useProductsStore } from '../../../stores/productsStore';
+  import { ProductInit } from '../../../stores/productsStore';
+  import type { TProductInfo } from '../../../stores/productsStore';
 
   const { fetchProducts, createProducts, init } = useProductsStore();
   const store = useProductsStore();
@@ -92,7 +96,6 @@
   const total = computed(() => store.total);
   const paginates = computed(() => total.value / limit.value);
 
-  const theme = ref("light");
   const page = ref(1);
   const newProductDetails = ref<TProductInfo>(ProductInit);
   const productDetails = ref<TProductInfo>(ProductInit);
@@ -114,4 +117,8 @@
     init();
   }
   
+  definePageMeta({
+    layout: "dashboard"
+  });
+
 </script>

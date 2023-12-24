@@ -1,6 +1,6 @@
 <template>
-  <div class="p-10">
-    <div class="card card-compact w-full bg-base-100 shadow-xl">
+  <div class="">
+    <div class="card card-compact w-full bg-base-100 shadow">
       <div class="card-body">
         <h2 class="card-title">
           Users 
@@ -86,7 +86,11 @@
 </template>
 
 <script setup lang="ts">
-  import { useUserStore } from '../stores/usersStore';
+  import { useUserStore } from '../../../stores/usersStore';
+
+  definePageMeta({
+    layout: "dashboard"
+  });
 
   const { fetchUsers } = useUserStore();
   const store = useUserStore();

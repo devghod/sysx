@@ -3,7 +3,7 @@
     <table class="table table-xs">
       <thead>
         <tr>
-          <th></th>
+          <th>Offers</th>
           <th>Title</th>
           <th>Price</th>
           <th>Rating</th>
@@ -38,7 +38,7 @@
         </tr>
       </tbody>
     </table>
-    <div class="join mt-4">
+    <div class="join ml-2 my-4">
       <button 
         v-for="paginate in props.paginates" 
         @click="handlePageFetch(paginate)" 

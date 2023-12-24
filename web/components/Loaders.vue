@@ -15,7 +15,7 @@
       <div class="card bg-base-100 bg-transparent">
         <Icon 
           name="svg-spinners:blocks-wave" 
-          color="white" 
+          :color="color" 
           height="40"
           width="40"        
         />
@@ -24,7 +24,7 @@
     <div v-if="type == 3">
       <Icon 
         name="svg-spinners:3-dots-bounce" 
-        color="white" 
+        :color="color"  
         height="20"
         width="20"        
       />
@@ -38,5 +38,7 @@ const props = defineProps<{
   type: number,
   isOpen: boolean
 }>();
+
+const color = ref("#e11d48"); // set color here
 
 </script>
