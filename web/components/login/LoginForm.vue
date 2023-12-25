@@ -70,9 +70,7 @@
           @click="submit"
         >
           <span v-if="loading" class="loading loading-spinner"></span>
-          <div v-else>
-            Sign in
-          </div>
+          <div v-else>Sign in</div>
         </button>
       </div>
     </div>
@@ -88,6 +86,18 @@
     credentials: TLogin
   }>();
 
+  const title = ref('SYSX | Login');
+  const description = ref('My App Description');
+
+  // This will be reactive even you change title/description above
+  useHead({
+    title,
+    meta: [{
+      name: 'description',
+      content: description
+    }]
+  });
+
   const loading = ref(false);
 
   const submit = async () => {
@@ -95,6 +105,7 @@
     console.log("Credentials: ", props.credentials);
     setTimeout(() => {
       loading.value = false;
+      navigateTo('/dashboard');
     }, 3000);
   }
 

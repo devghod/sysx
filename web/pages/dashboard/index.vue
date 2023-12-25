@@ -83,7 +83,7 @@
 
 <script setup lang="ts">
 
-  const title = ref('SYS | X');
+  const title = ref('SYSX | Dashboard');
   const description = ref('My App Description');
 
   // This will be reactive even you change title/description above

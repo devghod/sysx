@@ -40,6 +40,12 @@
       "icon": "lets-icons:order-duotone",
       "color": null
     },
+    {
+      "name": "Deptors",
+      "directory": "/dashboard/depts",
+      "icon": "lets-icons:money-duotone",
+      "color": null
+    },
   ]);
 
 </script>
