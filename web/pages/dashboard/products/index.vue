@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="w-full shadow rounded border">
+    <div class="w-full bg-white shadow rounded-lg border">
       <div class="grid grid-cols-6 gap-4 pt-3 px-3">
         <div class="col-start-1 col-end-3">
           <div class="">
