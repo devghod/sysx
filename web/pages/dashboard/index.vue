@@ -83,18 +83,6 @@
 
 <script setup lang="ts">
 
-  const title = ref('SYSX | Dashboard');
-  const description = ref('My App Description');
-
-  // This will be reactive even you change title/description above
-  useHead({
-    title,
-    meta: [{
-      name: 'description',
-      content: description
-    }]
-  });
-
   definePageMeta({
     layout: "dashboard"
   });
