@@ -19,7 +19,7 @@
       <div class="space-y-3">
         <div class="">
           <div class="w-full flex">
-            <div class="flex-1 bg-slate-500 rounded-l">
+            <div class="w-10 bg-slate-500 rounded-l">
               <Icon 
                 class="mt-2"
                 name="heroicons:user-circle-20-solid" 
@@ -30,7 +30,7 @@
             </div>
             <div class="flex-auto">
               <input 
-                class="px-4 py-2 w-full rounded-r outline-none focus:outline-none ring ring-transparent ring-inset hover:ring-pink-300 focus:ring-pink-500 bg-slate-100 focus:bg-slate-200 font-semibold text-slate-800" 
+                class="px-4 py-2 w-full rounded-r outline-none focus:outline-none ring ring-transparent ring-inset hover:ring-pink-300 focus:ring-pink-500 bg-slate-100 focus:bg-slate-200 font-medium text-slate-800" 
                 type="email" 
                 name="email" 
                 id="email" 
@@ -42,7 +42,7 @@
         </div>
         <div class="">
           <div class="w-full flex">
-            <div class="flex-1 bg-slate-500 rounded-l">
+            <div class="w-10 bg-slate-500 rounded-l">
               <Icon 
                 class="mt-2"
                 name="heroicons:lock-closed-solid" 
@@ -53,13 +53,33 @@
             </div>
             <div class="flex-auto">
               <input 
-                class="px-4 py-2 w-full rounded-r outline-none focus:outline-none ring ring-transparent ring-inset hover:ring-pink-300 focus:ring-pink-500 bg-slate-100 focus:bg-slate-200 font-semibold text-slate-800" 
-                type="password" 
+                class="px-4 py-2 w-full outline-none focus:outline-none ring ring-transparent ring-inset hover:ring-pink-300 focus:ring-pink-500 bg-slate-100 focus:bg-slate-200 font-medium text-slate-800" 
+                :type="showPassword ? '' : 'password'" 
                 name="password" 
                 id="password" 
                 placeholder="Your password here" 
                 v-model="credentials.password" 
               >
+            </div>
+            <div class="bg-slate-100 rounded-r pr-2">
+              <button v-if="!showPassword" @click="showPassword = true">
+                <Icon 
+                  class="mt-2"
+                  name="lets-icons:hide-eye-duotone" 
+                  color="" 
+                  height="20"
+                  width="20"
+                />
+              </button>
+              <button v-if="showPassword" @click="showPassword = false">
+                <Icon 
+                  class="mt-2"
+                  name="lets-icons:eye-duotone" 
+                  color="" 
+                  height="20"
+                  width="20"
+                />
+              </button>
             </div>
           </div>
         </div>
@@ -67,6 +87,7 @@
       <div class="">
         <button
           class="btn btn-primary btn-block"
+          :class="{ 'btn btn-disabled': loading }"
           @click="submit"
         >
           <span v-if="loading" class="loading loading-spinner"></span>
@@ -99,6 +120,7 @@
   });
 
   const loading = ref(false);
+  const showPassword = ref(false);
 
   const submit = async () => {
     loading.value = true;
