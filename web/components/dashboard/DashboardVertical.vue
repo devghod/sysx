@@ -34,15 +34,15 @@
       "icon": "lets-icons:group-fill",
       "color": null
     },
+    // {
+    //   "name": "Products",
+    //   "directory": "/dashboard/products",
+    //   "icon": "lets-icons:order-duotone",
+    //   "color": null
+    // },
     {
-      "name": "Products",
-      "directory": "/dashboard/products",
-      "icon": "lets-icons:order-duotone",
-      "color": null
-    },
-    {
-      "name": "Deptors",
-      "directory": "/dashboard/depts",
+      "name": "Loans",
+      "directory": "/dashboard/loans",
       "icon": "lets-icons:money-duotone",
       "color": null
     },

@@ -35,7 +35,8 @@
             </a>
           </li>
           <li><a>Settings</a></li>
-          <li><a>Logout</a></li>
+          <li><a @click="logout">Logout</a></li>
+          <!-- <li><NuxtLink to="/">Logout</NuxtLink></li> -->
         </ul>
       </div>
     </div>
@@ -48,5 +49,11 @@
     name: "Company name here",
     logoUrl: "https://img.logoipsum.com/323.svg"
   });
+
+  const logout = async () => {
+    setTimeout(() => {
+      navigateTo('/');
+    }, 1000);
+  }
 
 </script>
