@@ -1,7 +1,9 @@
 {
-  "name": "nuxt-app",
+  "name": "frontend",
   "private": true,
   "type": "module",
+  "version": "1.0.0",
+  "description": "frontend side",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
