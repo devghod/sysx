@@ -37,6 +37,10 @@ const usersSchema = new mongoose.Schema({
   created_by: {
       type: String,
   },
+  deleted: {
+    type: Boolean,
+    default: false
+  }
 })
 
 // usersSchema.pre('save', async function (next) {
