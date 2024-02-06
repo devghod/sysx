@@ -2,18 +2,24 @@ const mongoose = require('mongoose');
 
 const usersSchema = new mongoose.Schema({
   first_name: {
-      type: String
+    type: String
   },
   middle_name: {
-      type: String
+    type: String
   },
   last_name: {
-      type: String
+    type: String
   },
   email: {
-      type: String,
+    type: String,
+  },
+  username: {
+    type: String,
   },
   password: {
+    type: String,
+  },
+  image: {
     type: String,
   },
   date_created: {
@@ -28,14 +34,14 @@ const usersSchema = new mongoose.Schema({
   },
   tokens: [{
     token: {
-        type: String
+      type: String
     }
   }],
   unique_token: {
-      type: String
+    type: String
   },
   created_by: {
-      type: String,
+    type: String,
   },
   deleted: {
     type: Boolean,

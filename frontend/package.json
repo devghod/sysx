@@ -24,6 +24,7 @@
   "dependencies": {
     "@nuxt/image": "^1.1.0",
     "@pinia/nuxt": "^0.5.1",
+    "dotenv": "^16.4.1",
     "pinia": "^2.1.7"
   }
 }

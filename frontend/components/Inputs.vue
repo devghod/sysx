@@ -2,13 +2,24 @@
   <div>
     <button 
       class="w-full py-1 bg-rose-500 hover:bg-rose-700 tracking-wider antialiased capitalize font-semibold text-white rounded"
-      v-if="type == 1"
+      v-if="type == 'primary'"
     >
       <div v-if="loading" class="flex justify-center">
         <Loaders :type="3" :isOpen="loading" />
       </div>  
       <div v-else>
-        Sign in
+        {{ label }}
+      </div>
+    </button> 
+    <button 
+      class="w-full py-1 bg-rose-500 hover:bg-rose-700 tracking-wider antialiased capitalize font-semibold text-white rounded"
+      v-else
+    >
+      <div v-if="loading" class="flex justify-center">
+        <Loaders :type="3" :isOpen="loading" />
+      </div>  
+      <div v-else>
+        {{ label }}
       </div>
     </button> 
   </div>
@@ -17,9 +28,13 @@
 <script lang="ts" setup>
 
 const props = defineProps<{
-  type: number,
+  label: {
+    required: true,
+    type: string,
+  },
+  type: string, // primary, secondary, default = none or ''
   isOpen: boolean,
-  loading: false
+  loading: false,
 }>();
 
 </script>

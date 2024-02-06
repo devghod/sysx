@@ -1,6 +1,14 @@
+require('dotenv').config();
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  runtimeConfig: {
+    public: {
+      baseURL: process.env.DEV_BASE_URL,
+      apiBaseUrl: process.env.DEV_API_URL
+    },
+  },
   modules: [
     "@nuxtjs/tailwindcss",
     "@pinia/nuxt",
@@ -12,19 +20,19 @@ export default defineNuxtConfig({
   },
   daisyui: {
     themes: [
-      // {
-      //   mytheme: {
-      //     "primary": "#60a5fa",      
-      //     "secondary": "#2dd4bf",
-      //     "accent": "#ef4444",
-      //     "neutral": "#d1d5db",
-      //     "base-100": "#ffffff",
-      //     "info": "#a3e635",
-      //     "success": "#22c55e",
-      //     "warning": "#facc15",
-      //     "error": "#f43f5e",
-      //   },
-      // },
+      {
+        mytheme: {
+          "primary": "#60a5fa",      
+          "secondary": "#2dd4bf",
+          "accent": "#ef4444",
+          "neutral": "#d1d5db",
+          "base-100": "#ffffff",
+          "info": "#a3e635",
+          "success": "#22c55e",
+          "warning": "#facc15",
+          "error": "#f43f5e",
+        },
+      },
       "light",
       "dark",
       "cupcake",

@@ -1,11 +1,14 @@
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
+
+export const controller = 'users';
 
 export const useUserStore = defineStore('users', {
 
   state: () => {
     return {
-      users: [] as UserInfo[],
-      user: null as UserInfo | null,
+      users: [] as IUserInfo[],
+      user: null as IUserInfo | null,
+      newUser: {} as INewUserInfo,
       loading: false as Boolean,
       total: 0 as number,
       limit: 10 as number,
@@ -18,51 +21,97 @@ export const useUserStore = defineStore('users', {
   },
 
   actions: {
+
     async fetchUsers(skipNum: number) {
       this.loading = true;
 
-      const { data }: any = await useLazyFetch('https://dummyjson.com/users', {
-        query: { limit: this.limit, skip: skipNum }
-      });
+      const config = useRuntimeConfig();
+      const result: any = await useFetch(`${config.public.apiBaseUrl}${controller}/get-users`);
+      const { data } = result;
 
-      if (data.value?.users && data.value.users.length > 0) {
+      if (data.value) {
         this.users = data.value.users;
         this.total = data.value.total;
         this.skip = skipNum;
       };
 
       this.loading = false;
-    }
-  }
+    },
+
+    async fetchUser(id: string) {
+      this.loading = true;
+
+      const config = useRuntimeConfig();
+      const result: any = await useFetch(`${config.public.apiBaseUrl}${controller}/get-user/${id}`);
+      const { data } = result;
+
+      if (data.value) {
+        this.user = data.value.user;
+      };
+
+      this.loading = false;
+    },
+
+    async addUser(body: INewUserInfo) {
+      this.loading = true;
+      console.log('body', body)
+
+      const config = useRuntimeConfig();
+      const result: any = await useFetch(`${config.public.apiBaseUrl}${controller}/add-user`,
+      {
+        method: 'post',
+        body: body,
+      });
+      const { data } = result;
+console.log(result);
+      // if (data.value) {
+      //   this.user = data.value.user;
+      // };
+
+      this.loading = false;
+    },
+
+  },
 
 })
-
-export interface UserInfo {
-  firstName: string
-  lastName: string
-  address: object
-  bank: object
-  birthDate: string
-  bloodGroup: string
-  company: object
-  domain: string
-  ein: string
-  email: string
-  eyeColor: string
-  gender: string
-  hair: object
-  height: number
-  id: number
+export interface IUserInfo {
+  _id: string
+  first_name: string
+  middle_name: string
+  last_name: string
   image: string
-  ip: string
-  macAddress: string
-  maidenName: string
+  email: string
   password: string
-  phone: string
-  ssn: string
-  university: string
-  userAgent: string
   username: string
-  age: number
-  weight: number
+  date_created: string
+}
+
+export interface INewUserInfo {
+  first_name: string
+  middle_name: string
+  last_name: string
+  image: string
+  email: string
+  username: string
+}
+
+export type TNewUserInfo = {
+  first_name: string
+  middle_name: string
+  last_name: string
+  image: string
+  email: string
+  username: string
+}
+
+export type TUserInfo = {
+  _id: string
+  first_name: string
+  middle_name: string
+  last_name: string
+  image: string
+  email: string
+  password: string
+  username: string
+  date_created: string
 }

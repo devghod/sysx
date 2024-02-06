@@ -20,13 +20,15 @@
         <div class="">
           <div class="w-full flex">
             <div class="w-10 bg-slate-500 rounded-l">
-              <Icon 
-                class="mt-2"
-                name="heroicons:user-circle-20-solid" 
-                color="white" 
-                height="20"
-                width="20"
-              />
+              <ClientOnly>
+                <Icon 
+                  class="mt-2"
+                  name="heroicons:user-circle-20-solid" 
+                  color="white" 
+                  height="20"
+                  width="20"
+                />
+              </ClientOnly>
             </div>
             <div class="flex-auto">
               <input 
@@ -43,13 +45,15 @@
         <div class="">
           <div class="w-full flex">
             <div class="w-10 bg-slate-500 rounded-l">
-              <Icon 
-                class="mt-2"
-                name="heroicons:lock-closed-solid" 
-                color="white" 
-                height="20"
-                width="20"
-              />
+              <ClientOnly>
+                <Icon 
+                  class="mt-2"
+                  name="heroicons:lock-closed-solid" 
+                  color="white" 
+                  height="20"
+                  width="20"
+                />
+              </ClientOnly>
             </div>
             <div class="flex-auto">
               <input 
@@ -63,22 +67,26 @@
             </div>
             <div class="bg-slate-100 rounded-r pr-2">
               <button v-if="!showPassword" @click="showPassword = true">
-                <Icon 
-                  class="mt-2"
-                  name="lets-icons:hide-eye-duotone" 
-                  color="" 
-                  height="20"
-                  width="20"
-                />
+                <ClientOnly>
+                  <Icon 
+                    class="mt-2"
+                    name="lets-icons:hide-eye-duotone" 
+                    color="" 
+                    height="20"
+                    width="20"
+                  />
+                </ClientOnly>
               </button>
               <button v-if="showPassword" @click="showPassword = false">
-                <Icon 
-                  class="mt-2"
-                  name="lets-icons:eye-duotone" 
-                  color="" 
-                  height="20"
-                  width="20"
-                />
+                <ClientOnly>
+                  <Icon 
+                    class="mt-2"
+                    name="lets-icons:eye-duotone" 
+                    color="" 
+                    height="20"
+                    width="20"
+                  />
+                </ClientOnly>
               </button>
             </div>
           </div>

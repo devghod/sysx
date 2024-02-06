@@ -4,18 +4,68 @@ const router = express.Router()
 const UsersModel = require('../models/users')
 
 // GET method route
-router.get('/', async (req, res) => {
+router.get('/get-users', async (req, res) => {
   try {
-    const users = await UsersModel.find({ deleted: false });
 
-    res.status(200).json({ data: users, success: true, message: 'GET request for user' });
+    const users = await UsersModel
+      .find({ deleted: false })
+      .select({ 
+        first_name: 1, 
+        middle_name: 1, 
+        last_name: 1, 
+        email: 1,
+        username: 1,
+        date_created: 1,
+        image: 1
+      });
+
+    res
+      .status(200)
+      .json({ 
+        users: users, 
+        total: users.length,
+        success: true, 
+        message: 'GET request for users' 
+      });
+
+  } catch (error) {
+    res.status(400).json({ success: false, message: `Error ${error}` });
+  }
+})
+
+// GET method route
+router.get('/get-user/:id', async (req, res) => {
+  try {
+
+    const id = req.params.id;
+
+    const user = await UsersModel
+      .findOne({ _id: id })
+      .select({ 
+        first_name: 1, 
+        middle_name: 1, 
+        last_name: 1, 
+        email: 1,
+        username: 1,
+        date_created: 1,
+        image: 1
+      });
+
+    res
+      .status(200)
+      .json({ 
+        user: user, 
+        success: true, 
+        message: 'GET request for user' 
+      });
+
   } catch (error) {
     res.status(400).json({ success: false, message: `Error ${error}` });
   }
 })
 
 // POST method route
-router.post('/', async (req, res) => {
+router.post('/add-user', async (req, res) => {
   try {
     const body = req.body;
     const createUser = new UsersModel({ ...body });

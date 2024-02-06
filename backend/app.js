@@ -1,9 +1,11 @@
-require('dotenv').config()
-const express = require('express')
-const mongoose = require('mongoose')
-const app = express()
-const port = 4001
+require('dotenv').config();
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const app = express();
+const port = 4001;
 
+app.use(cors()); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -24,10 +26,10 @@ app.get('/', (req, res) => {
   const result = indexjs.welcomeFunction()
   console.log(`Hello World! ${result}`)
   res.send(`Hello World! ${result}`)
-})
+});
 
-app.use('/users', userRoute)
+app.use('/api/users', userRoute);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
-})
+});

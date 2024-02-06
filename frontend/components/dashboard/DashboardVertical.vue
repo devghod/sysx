@@ -1,21 +1,21 @@
 <template>
   <div class="flex-initial w-48 shadow divide-y-2">
-    <div class="">
-      <ul class="menu font-semibold">
-        <li v-for="(item, index ) in menus" :keys="index">
-          <nuxt-link :to="item.directory">
+    <ul class="menu font-semibold">
+      <li v-for="(menu, index ) in menus" :keys="index">
+        <nuxt-link :to="menu.directory">
+          <ClientOnly>
             <Icon
-              v-if="item?.icon"
-              :name="item.icon"
-              :color="item?.color ?? ''" 
+              v-if="menu?.icon"
+              :name="menu.icon"
+              :color="menu?.color ?? ''" 
               height="20"
               width="20"
             />
-            {{ item.name }}
-          </nuxt-link>
-        </li>
-      </ul>
-    </div>
+          </ClientOnly>
+          {{ menu.name }}
+        </nuxt-link>
+      </li>
+    </ul>
   </div>
 </template>
 
