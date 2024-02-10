@@ -10,7 +10,7 @@
             </div>
             <div v-else>Fetch Users</div>
           </button>
-          <button class="btn btn-primary btn-xs" onclick="add_user_modal.showModal()">
+          <button class="btn btn-primary btn-xs" @click="isOpenModalAddUSer">
             <div v-if="loading">
               <span class="loading loading-spinner"></span>
             </div>
@@ -125,7 +125,8 @@
     </dialog>
 
     <!-- Add Modal -->
-    <dialog id="add_user_modal" class="modal">
+    <!-- <dialog id="add_user_modal" class="modal"> -->
+    <div v-if="openModalAddUser" id="add_user_modal" class="modal">
       <div class="modal-box">
         <h3 class="font-bold text-lg border-b">Add User</h3>
         <div class="py-2 my-4">
@@ -185,22 +186,29 @@
                 class="w-full border"
               />
             </div>
+            <div class="">
+              Status:
+            </div>
+            <div class="col-span-2">
+              <select name="status" id="status" class="w-full border">
+                <option disabled selected>Select Status</option>
+                <option v-for="(item) in statusList" :value="item" :id="item">{{ item }}</option>
+              </select>
+            </div>
           </div>
         </div>
         <div class="modal-action">
-          <!-- <form method="dialog"> -->
-            <Buttons label="Add" type="primary" @click="addUserFunc" />
-          <!-- </form> -->
+          <Buttons label="Add" type="primary" @click="addUserFunc" />
         </div>
       </div>
-    </dialog>
+    </div>
 
   </div>
 </template>
 
 <script setup lang="ts">
 
-  import { useUserStore, type IUserInfo } from '../../../stores/usersStore';
+  import { useUserStore, type IUserInfo } from '~/stores/users';
   import { storeToRefs } from 'pinia';
 
   definePageMeta({
@@ -214,6 +222,8 @@
   const page = ref(1);
   const selectedUser = ref<IUserInfo | null>(store.user);
   const newUser = ref<INewUserInfo>(store.newUser);
+  const statusList = ref(["Active", "Deactive"]);
+  const openModalAddUser = ref(false); 
   // const isOpenModalUser = ref(false);
 
   const handleFetchUsers = async (pageNum: number) => {
@@ -221,6 +231,8 @@
     let skipVal = (pageNum * limit.value) - 10;
     await fetchUsers(skipVal);
   };
+
+  await handleFetchUsers(1);
 
   const handleUserDetails = async (id: string) => {
     await fetchUser(id);
@@ -237,7 +249,7 @@
   //   isOpenModalUser.value = false;
   };
 
-  await handleFetchUsers(1);
+  const isOpenModalAddUSer = () => openModalAddUser.value == false ? openModalAddUser.value = true : openModalAddUser.value = false;
 
 </script>
 

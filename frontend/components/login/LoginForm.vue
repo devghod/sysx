@@ -33,11 +33,10 @@
             <div class="flex-auto">
               <input 
                 class="px-4 py-2 w-full rounded-r outline-none focus:outline-none ring ring-transparent ring-inset hover:ring-pink-300 focus:ring-pink-500 bg-slate-100 focus:bg-slate-200 font-medium text-slate-800" 
-                type="email" 
-                name="email" 
-                id="email" 
-                placeholder="Your email here" 
-                v-model="credentials.email" 
+                name="username" 
+                id="username" 
+                placeholder="Your username here" 
+                v-model="credentials.username" 
               >
             </div>
           </div>
@@ -108,17 +107,17 @@
 
 <script setup lang="ts">
 
-  import { useLoginStore } from '~/stores/loginStore';
-  import type { TLogin } from '~/stores/loginStore';
+  import type { TLogin } from '~/stores/auth/state';
 
   const props = defineProps<{
-    credentials: TLogin
+    credentials: TLogin,
+    loading: Boolean
   }>();
 
   const title = ref('SYSX | Login');
   const description = ref('My App Description');
-
-  // This will be reactive even you change title/description above
+  const showPassword = ref(false);
+  
   useHead({
     title,
     meta: [{
@@ -127,16 +126,12 @@
     }]
   });
 
-  const loading = ref(false);
-  const showPassword = ref(false);
+  const emit = defineEmits([
+    'handleSubmit',
+  ]);
 
   const submit = async () => {
-    loading.value = true;
-    console.log("Credentials: ", props.credentials);
-    setTimeout(() => {
-      loading.value = false;
-      navigateTo('/dashboard');
-    }, 3000);
+    emit('handleSubmit')
   }
 
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="navbar shadow">
     <div class="flex-1">
-      <figure><img :src="companyDetails.logoUrl" height="50" alt="Shoes" /></figure>
+      <figure><img :src="companyDetails.logoUrl" height="50" alt="Logo here" /></figure>
     </div>
     <div class="flex-none">
       <div class="dropdown dropdown-end">
@@ -45,15 +45,18 @@
 
 <script setup lang="ts">
 
+  import { useAuthStore } from '~/stores/auth';
+
+  const { logoutUser } = useAuthStore();
   const companyDetails = ref({
     name: "Company name here",
     logoUrl: "https://img.logoipsum.com/323.svg"
   });
+  const router = useRouter();
 
-  const logout = async () => {
-    setTimeout(() => {
-      navigateTo('/');
-    }, 1000);
+  const logout = () => {
+    logoutUser();
+    router.push('/login');
   }
 
 </script>

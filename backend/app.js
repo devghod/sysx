@@ -19,17 +19,19 @@ mongoose.connection.on('disconnecting', () => console.log('Database disconnectin
 mongoose.connection.on('close', () => console.log('Database close'));
 mongoose.connection.on('error', (error) => console.error(`Database ${error}`));
 
-const indexjs = require("./index")
-const userRoute = require("./src/controllers/users")
+const indexjs = require("./index");
+const authRoute = require("./src/routes/authRoute");
+const usersRoute = require("./src/routes/usersRoute");
 
 app.get('/', (req, res) => {
-  const result = indexjs.welcomeFunction()
-  console.log(`Hello World! ${result}`)
-  res.send(`Hello World! ${result}`)
+  const result = indexjs.welcomeFunction();
+  console.log(`Hello World! ${result}`);
+  res.send(`Hello World! ${result}`);
 });
 
-app.use('/api/users', userRoute);
+app.use('/api/auth', authRoute);
+app.use('/api/users', usersRoute);
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`App listening on port ${port}`);
 });

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const usersSchema = new mongoose.Schema({
   first_name: {
@@ -14,6 +15,9 @@ const usersSchema = new mongoose.Schema({
     type: String,
   },
   username: {
+    type: String,
+  },
+  status: {
     type: String,
   },
   password: {
@@ -56,6 +60,25 @@ const usersSchema = new mongoose.Schema({
 //   }
 //   next()
 // })
+
+// Hash the password before saving it to the database
+usersSchema.pre('save', async function (next) {
+  const user = this;
+  if (!user.isModified('password')) return next();
+
+  try {
+    const salt = await bcrypt.genSalt();
+    user.password = await bcrypt.hash(user.password, salt);
+    next();
+  } catch (error) {
+    return next(error);
+  }
+});
+
+// Compare the given password with the hashed password in the database
+usersSchema.methods.comparePassword = async function (password) {
+  return bcrypt.compare(password, this.password);
+};
 
 const Users = mongoose.model('Users', usersSchema)
 module.exports = Users

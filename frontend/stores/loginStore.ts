@@ -17,7 +17,7 @@ export const useLoginStore = defineStore('login', {
   actions: {
     
     init() {
-      LoginInit.email = '';
+      LoginInit.username = '';
       LoginInit.password = '';
     },
 
@@ -26,11 +26,11 @@ export const useLoginStore = defineStore('login', {
 })
 
 export type TLogin = {
-  email: string,
+  username: string,
   password: string,
 }
 
 export const LoginInit: TLogin = {
-  email: '',
+  username: '',
   password: '',
 }

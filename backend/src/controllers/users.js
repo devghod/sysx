@@ -1,12 +1,7 @@
-const express = require('express')
-const mongoose = require('mongoose')
-const router = express.Router()
-const UsersModel = require('../models/users')
+const UsersModel = require('../models/users');
 
-// GET method route
-router.get('/get-users', async (req, res) => {
+const getUsers = async (req, res, next) => {
   try {
-
     const users = await UsersModel
       .find({ deleted: false })
       .select({ 
@@ -31,12 +26,10 @@ router.get('/get-users', async (req, res) => {
   } catch (error) {
     res.status(400).json({ success: false, message: `Error ${error}` });
   }
-})
+};
 
-// GET method route
-router.get('/get-user/:id', async (req, res) => {
+const getUserById = async (req, res, next) => {
   try {
-
     const id = req.params.id;
 
     const user = await UsersModel
@@ -58,14 +51,12 @@ router.get('/get-user/:id', async (req, res) => {
         success: true, 
         message: 'GET request for user' 
       });
-
   } catch (error) {
     res.status(400).json({ success: false, message: `Error ${error}` });
   }
-})
+};
 
-// POST method route
-router.post('/add-user', async (req, res) => {
+const addUser = async (req, res, next) => {
   try {
     const body = req.body;
     const createUser = new UsersModel({ ...body });
@@ -75,10 +66,9 @@ router.post('/add-user', async (req, res) => {
   } catch (error) {
     res.status(400).json({ success: false, message: `Error ${error}` });
   }
-})
+};
 
-// PUT method route
-router.put('/:id', async (req, res) => {
+const updateUser = async (req, res, next) => {
   try {
     const body = req.body;
     const id = req.params.id;
@@ -96,11 +86,9 @@ router.put('/:id', async (req, res) => {
   } catch (error) {
     res.status(400).json({ success: false, message: `Error ${error}` });
   }
-})
+};
 
-// DELETE method route
-// Rather delete the data, add deleted key and set it as boolean
-router.delete('/:id', async (req, res) => {
+const deleteUser = async (req, res, next) => {
   try {
     const id = req.params.id;
 
@@ -117,6 +105,6 @@ router.delete('/:id', async (req, res) => {
   } catch (error) {
     res.status(400).json({ success: false, message: `Error ${error}` });
   }
-})
+};
 
-module.exports = router
+module.exports = { getUsers, getUserById, addUser, updateUser, deleteUser };
