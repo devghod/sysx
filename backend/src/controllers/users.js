@@ -9,6 +9,7 @@ const getUsers = async (req, res, next) => {
         middle_name: 1, 
         last_name: 1, 
         email: 1,
+        status: 1,
         username: 1,
         date_created: 1,
         image: 1
@@ -39,6 +40,7 @@ const getUserById = async (req, res, next) => {
         middle_name: 1, 
         last_name: 1, 
         email: 1,
+        status: 1,
         username: 1,
         date_created: 1,
         image: 1

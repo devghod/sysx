@@ -31,17 +31,32 @@ export const actions = {
   },
 
   async fetchUser(id: string) {
-    this.loading = true;
+    const token = useCookie('token');
+    const bearerToken = token.value;
 
-    const config = useRuntimeConfig();
-    const result: any = await useFetch(`${config.public.apiBaseUrl}${controller}/get-user/${id}`);
-    const { data } = result;
+    try {
+      const config = useRuntimeConfig();
+      const result: any = await useFetch(`${config.public.apiBaseUrl}${controller}/get-user/${id}`,
+      {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${bearerToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      const { data, pending, error, status } = result;
 
-    if (data.value) {
-      this.user = data.value.user;
-    };
+      this.loading = pending;
 
-    this.loading = false;
+      if (status.value === 'success') {
+        this.user = data.value.user;
+      } else {
+        console.log("Error",error);
+        this.errorMessage = error.value.data.message
+      }
+    } catch (error) {
+      
+    }
   },
 
   async addUser(body: INewUserInfo) {

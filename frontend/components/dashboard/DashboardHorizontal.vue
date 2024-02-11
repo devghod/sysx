@@ -1,7 +1,13 @@
 <template>
   <div class="navbar shadow">
     <div class="flex-1">
-      <figure><img :src="companyDetails.logoUrl" height="50" alt="Logo here" /></figure>
+      <figure>
+        <NuxtImg
+          :src="companyDetails.logoUrl" 
+          width="100"
+          alt="Logo here"
+        />
+      </figure>
     </div>
     <div class="flex-none">
       <div class="dropdown dropdown-end">
@@ -24,7 +30,12 @@
       <div class="dropdown dropdown-end">
         <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
           <div class="w-10 rounded-full">
-            <img alt="Tailwind CSS Navbar component" src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+            <NuxtImg
+              v-if="profile?.image"
+              :src="profile?.image ? profile.image : ''" 
+              :alt="`${profile.first_name} ${profile.last_name}`"
+              loading="lazy"
+            />
           </div>
         </div>
         <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
@@ -36,7 +47,6 @@
           </li>
           <li><a>Settings</a></li>
           <li><a @click="logout">Logout</a></li>
-          <!-- <li><NuxtLink to="/">Logout</NuxtLink></li> -->
         </ul>
       </div>
     </div>
@@ -46,7 +56,9 @@
 <script setup lang="ts">
 
   import { useAuthStore } from '~/stores/auth';
+  import { storeToRefs } from 'pinia';
 
+  const { profile } = storeToRefs(useAuthStore());
   const { logoutUser } = useAuthStore();
   const companyDetails = ref({
     name: "Company name here",

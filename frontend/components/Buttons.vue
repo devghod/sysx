@@ -66,8 +66,6 @@
 
 <script lang="ts" setup>
 
-  console.log('Buttons Component');
-
   interface ButtonProps {
     label: string;
     type?: string;

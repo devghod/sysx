@@ -46,7 +46,12 @@
                     <div class="flex items-center gap-3">
                       <div class="avatar">
                         <div class="mask mask-squircle w-12 h-12">
-                          <img v-if="user.image" :src="user.image" :alt="`${ user.first_name } ${ user.middle_name } ${ user.last_name }`" />
+                          <NuxtImg
+                            v-if="user?.image"
+                            :src="user?.image ? user?.image : ''" 
+                            :alt="`${ user.first_name } ${ user.middle_name } ${ user.last_name }`"
+                            loading="lazy"
+                          />
                         </div>
                       </div>
                       <div>
@@ -57,7 +62,7 @@
                   </th>
                   <td>{{ user.username }}</td>
                   <td>{{ user.email }}</td>
-                  <td>{{ user.date_created }}</td>
+                  <td>{{ formatDate(user.date_created, 'MMM-DD-yy') }}</td>
                 </tr>
               </tbody>
             </table>
@@ -86,7 +91,12 @@
             <li class="">
               <div class="avatar">
                 <div class="mask mask-squircle w-16 h-16">
-                  <img v-if="selectedUser?.image" :src="selectedUser.image" :alt="`${ selectedUser.first_name } ${ selectedUser.middle_name } ${ selectedUser.last_name }`" />
+                  <NuxtImg
+                    v-if="selectedUser?.image"
+                    :src="selectedUser?.image ? selectedUser?.image : ''" 
+                    :alt="`${ selectedUser.first_name } ${ selectedUser.middle_name } ${ selectedUser.last_name }`"
+                    loading="lazy"
+                  />
                 </div>
               </div>
             </li>
@@ -237,6 +247,7 @@
   const handleUserDetails = async (id: string) => {
     await fetchUser(id);
     selectedUser.value = store.user;
+    // selectedUser.value = user;
     // isOpenModalUser.value = true;
   };
 

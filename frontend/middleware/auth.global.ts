@@ -1,21 +1,37 @@
-export default defineNuxtRouteMiddleware((to, from) => {
+export default defineNuxtRouteMiddleware(async (to, from) => {
   const { authenticated } = storeToRefs(useAuthStore()); // make authenticated state reactive
-
+  const { verify } = useAuthStore();
   const token = useCookie('token'); // get token from cookies
+  
+  if (to?.name === 'index') {
+    if (!token.value) {
+      return
+    } else {
+      await verify();
 
-  if (token.value) {
-    // check if value exists
-    authenticated.value = true; // update the state to authenticated
+      if (authenticated.value) {
+        return navigateTo('/dashboard');
+      } else {
+        return
+      }
+    }
   }
 
-  // if token exists and url is /login redirect to homepage
-  if (token.value && to?.name === 'login' && authenticated.value) {
-    return navigateTo('/dashboard');
+  if (token.value && to?.name === 'login') {
+    await verify();
+
+    if (authenticated.value) {
+      return navigateTo('/dashboard');
+    } else {
+      abortNavigation();
+      return navigateTo('/login');
+    }
   }
 
-  // if token doesn't exist redirect to log in
   if (!token.value && to?.name !== 'login') {
     abortNavigation();
     return navigateTo('/login');
   }
-})
+
+  if (token.value) verify();
+});

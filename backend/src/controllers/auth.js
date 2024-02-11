@@ -45,13 +45,26 @@ const verify = async (req, res, next) => {
   const { token } = req.body;
 
   try {
-    jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+    jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
       if (err) {
         // Token verification failed
         res.json({ error: true, message: `Token verification failed: ${err.message}` });
       } else {
+        const id = decoded.userId;
+        const user = await UsersModel
+          .findOne({ _id: id })
+          .select({ 
+            first_name: 1, 
+            middle_name: 1, 
+            last_name: 1, 
+            email: 1,
+            status: 1,
+            username: 1,
+            date_created: 1,
+            image: 1
+          });
         // Token is valid, and the payload is available in the 'decoded' object
-        res.json({ success: true, decoded: decoded, message: `Decoded Token` });
+        res.json({ success: true, decoded: decoded, profile: user, message: `Decoded Token` });
       }
     });
     

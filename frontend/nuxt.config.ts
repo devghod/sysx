@@ -10,18 +10,12 @@ export default defineNuxtConfig({
     },
   },
   modules: [
-    "nuxt-security",
     "@nuxt/devtools",
     "@nuxtjs/tailwindcss",
     "@pinia/nuxt",
     "@nuxt/image",
     "nuxt-icon",
   ],
-  security: {
-    headers: {
-      crossOriginEmbedderPolicy: process.env.NODE_ENV === 'development' ? 'unsafe-none' : 'require-corp',
-    },
-  },
   pinia: {
     storesDirs: ['./stores/**', './custom-folder/stores/**'],
   },

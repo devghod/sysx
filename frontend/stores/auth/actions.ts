@@ -20,12 +20,11 @@ export const actions = {
       const { data, pending, error, status } = result;
 
       this.loading = pending;
-  
-      if (status.value === 'success') {
-        // this.token = data.value.token;
-        const token = useCookie('token');
-        token.value = data?.value?.token; 
+      
+      if (status.value === 'success' && data?.value?.success) {
+        this.token = token.token; 
         this.authenticated = true;
+        this.profile = data?.value?.profile;
       } else {
         console.log("Error",error);
         this.authenticated = false;
