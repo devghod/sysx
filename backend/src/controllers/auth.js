@@ -10,35 +10,47 @@ const register = async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new UsersModel({ username, email, password: hashedPassword });
     await user.save();
-    res.json({ message: 'Registration successful' });
+
+    res
+      .status(400)
+      .json({ 
+        success: true,
+        message: 'Registration successful' 
+      });
+  
   } catch (error) {
     next(error);
   }
-};
+}
 
 // Login with an existing user
 const login = async (req, res, next) => {
   const { username, password } = req.body;
 
   try {
-    const user = await UsersModel.findOne({ username });
+    const user = await UsersModel.findOne({ username, status: "Active" });
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.json({ success: false, message: 'User not found' });
     }
 
     const passwordMatch = await user.comparePassword(password);
     if (!passwordMatch) {
-      return res.status(401).json({ message: 'Incorrect password' });
+      return res.json({ success: false, message: 'Incorrect password' });
     }
 
     const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
       expiresIn: '1 hour'
     });
-    res.json({ token });
+
+    res.json({ 
+      success: true,
+      token: token 
+    });
+  
   } catch (error) {
     next(error);
   }
-};
+}
 
 // Verify token
 const verify = async (req, res, next) => {
@@ -47,8 +59,11 @@ const verify = async (req, res, next) => {
   try {
     jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
       if (err) {
-        // Token verification failed
-        res.json({ error: true, message: `Token verification failed: ${err.message}` });
+        res
+          .json({ 
+            success: false, 
+            message: `Token verification failed: ${err.message}` 
+          });
       } else {
         const id = decoded.userId;
         const user = await UsersModel
@@ -63,15 +78,20 @@ const verify = async (req, res, next) => {
             date_created: 1,
             image: 1
           });
-        // Token is valid, and the payload is available in the 'decoded' object
-        res.json({ success: true, decoded: decoded, profile: user, message: `Decoded Token` });
+        
+        res.json({ 
+          success: true, 
+          decoded: decoded, 
+          profile: user, 
+          message: `Decoded Token` 
+        });
+      
       }
     });
-    
-    // res.json({ token });
+
   } catch (error) {
     next(error);
   }
-};
+}
 
 module.exports = { register, login, verify };

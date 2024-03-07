@@ -4,15 +4,21 @@ const { authenticate } = require('../middlewares/auth');
 const { 
   getUsers, 
   getUserById, 
+  getUsersStatistics,
+  getUsersByFilter,
   addUser, 
   updateUser, 
-  deleteUser 
+  deleteUser,
+  updateUserStatus
 } = require('../controllers/users');
 
 router.get('/get-users', authenticate, getUsers);
+router.get('/get-users/statistics', authenticate, getUsersStatistics);
 router.get('/get-user/:id', authenticate, getUserById);
-router.post('/add-user', authenticate, addUser);
-router.put('/:id', authenticate, updateUser);
-router.delete('/:id', authenticate, deleteUser);
+router.post('/post-users', authenticate, getUsersByFilter);
+router.post('/post-user', authenticate, addUser);
+router.put('/put-user/:id', authenticate, updateUser);
+router.put('/put-user/status/:id', authenticate, updateUserStatus);
+router.delete('/delete-user/:id', authenticate, deleteUser);
 
 module.exports = router;

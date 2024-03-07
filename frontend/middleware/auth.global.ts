@@ -1,9 +1,10 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
   const { authenticated } = storeToRefs(useAuthStore()); // make authenticated state reactive
-  const { verify } = useAuthStore();
+  const { verify, logoutUser } = useAuthStore();
   const token = useCookie('token'); // get token from cookies
-  
-  if (to?.name === 'index') {
+  const directory = to?.name;
+  console.log(directory)
+  if (directory === 'index') {
     if (!token.value) {
       return
     } else {
@@ -12,26 +13,38 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
       if (authenticated.value) {
         return navigateTo('/dashboard');
       } else {
+        logoutUser();
         return
       }
     }
   }
 
-  if (token.value && to?.name === 'login') {
+  if (directory === 'login' && token.value) {
     await verify();
 
     if (authenticated.value) {
       return navigateTo('/dashboard');
     } else {
+      console.log(authenticated.value)
+      logoutUser();
       abortNavigation();
       return navigateTo('/login');
     }
   }
 
-  if (!token.value && to?.name !== 'login') {
+  if (!token.value && directory !== 'login') {
     abortNavigation();
     return navigateTo('/login');
   }
 
-  if (token.value) verify();
+  // if (token.value && !['login','index'].includes(directory)) {
+  if (token.value && directory !== 'login' && directory !== 'index') {
+    await verify();
+   
+    if (!authenticated.value) {
+      logoutUser();
+      abortNavigation();
+      return navigateTo('/login');
+    }
+  };
 });

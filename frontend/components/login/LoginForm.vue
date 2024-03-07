@@ -15,6 +15,7 @@
         Tag line here
       </div>
     </div>
+    <div class="w-full text-red-500 text-sm">{{ errorMsg }}</div>
     <div class="p-2 space-y-10">
       <div class="space-y-3">
         <div class="">
@@ -111,7 +112,8 @@
 
   const props = defineProps<{
     credentials: TLogin,
-    loading: Boolean
+    loading: Boolean,
+    errorMsg: String,
   }>();
 
   const title = ref('SYSX | Login');

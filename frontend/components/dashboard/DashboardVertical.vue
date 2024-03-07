@@ -46,6 +46,12 @@
       "icon": "lets-icons:money-duotone",
       "color": null
     },
+    {
+      "name": "Settings",
+      "directory": "/dashboard/settings",
+      "icon": "lets-icons:money-duotone",
+      "color": null
+    },
   ]);
 
 </script>

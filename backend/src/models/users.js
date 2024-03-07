@@ -20,12 +20,25 @@ const usersSchema = new mongoose.Schema({
   status: {
     type: String,
   },
+  gender: {
+    type: String,
+  },
   password: {
     type: String,
   },
   image: {
     type: String,
   },
+  tokens: [{
+    token: {
+      type: String
+    }
+  }],
+  unique_token: {
+    type: String
+  },
+  
+  // necessary fields
   date_created: {
     type: Date,
     required: true,
@@ -36,14 +49,6 @@ const usersSchema = new mongoose.Schema({
     required: true,
     default: Date.now
   },
-  tokens: [{
-    token: {
-      type: String
-    }
-  }],
-  unique_token: {
-    type: String
-  },
   created_by: {
     type: String,
   },
@@ -51,7 +56,7 @@ const usersSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   }
-})
+});
 
 // usersSchema.pre('save', async function (next) {
 //   const user = this
@@ -78,7 +83,7 @@ usersSchema.pre('save', async function (next) {
 // Compare the given password with the hashed password in the database
 usersSchema.methods.comparePassword = async function (password) {
   return bcrypt.compare(password, this.password);
-};
+}
 
-const Users = mongoose.model('Users', usersSchema)
-module.exports = Users
+const Users = mongoose.model('Users', usersSchema);
+module.exports = Users;

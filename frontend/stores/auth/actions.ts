@@ -1,69 +1,79 @@
 export const controller = 'auth'; // Controller name
 
 export const actions = {
+
   init() {
     LoginInit.username = "";
     LoginInit.password = "";
   },
+
   async verify() {
     const tkn = useCookie('token');
     const token = { token: tkn.value };
+    this.loading = true;
 
     try {
       const config = useRuntimeConfig();
-      const result: any = await useFetch(`${config.public.apiBaseUrl}${controller}/verify`,
+      const result: any = await $fetch(`${config.public.apiBaseUrl}${controller}/verify`,
       {
-        method: 'post',
+        method: 'POST',
         body: token,
       });
 
-      const { data, pending, error, status } = result;
-
-      this.loading = pending;
+      const { success, decoded, profile, message } = result;
       
-      if (status.value === 'success' && data?.value?.success) {
+      if (success) {
         this.token = token.token; 
         this.authenticated = true;
-        this.profile = data?.value?.profile;
+        this.profile = profile;
+        this.loading = false;
       } else {
-        console.log("Error",error);
         this.authenticated = false;
-        this.errorMessage = error.value.data.message
+        this.errorMessage = message;
+        this.loading = false;
       }
+
     } catch (error) {
-      console.log("Error", error)
+      console.log("Error", error);
+      this.loading = false;
     }
   },
+
   async login(credentials: TLogin) {
+    this.loading = true;
+
     try {
       const config = useRuntimeConfig();
-      const result: any = await useFetch(`${config.public.apiBaseUrl}${controller}/login`,
+      const result: any = await $fetch(`${config.public.apiBaseUrl}${controller}/login`,
       {
-        method: 'post',
+        method: 'POST',
         body: credentials,
       });
 
-      const { data, pending, error, status } = result;
-
-      this.loading = pending;
+      const { success, token: tkn, message } = result;
   
-      if (status.value === 'success') {
-        this.token = data.value.token;
+      if (success) {
+        this.token = tkn;
         const token = useCookie('token');
-        token.value = data?.value?.token; 
+        token.value = tkn; 
         this.authenticated = true;
+        this.errorMessage = "";
+        this.loading = false;
       } else {
-        console.log("Error",error);
         this.authenticated = false;
-        this.errorMessage = error.value.data.message
+        this.errorMessage = message;
+        this.loading = false;
       }
     } catch (error) {
-      console.log("Error", error)
+      console.log("Error", error);
+      this.loading = false;
     }
   },
+
   logoutUser() {
     const token = useCookie('token'); // useCookie new hook in nuxt 3
     this.authenticated = false; // set authenticated  state value to false
     token.value = null; // clear the token cookie
   },
+  
 };

@@ -1,52 +1,16 @@
+import { TUserInfo, UserInit  } from './types';
+
 export const state = () => ({
-  users: [] as IUserInfo[],
-  user: null as IUserInfo | null,
-  newUser: {} as INewUserInfo,
+  users: [] as TUserInfo[],
+  user: UserInit as TUserInfo | null,
   loading: false as Boolean,
   total: 0 as number,
   limit: 10 as number,
   skip: 0 as number,
   errorMessage: "" as String,
+  status: "" as String,
+  succesMessage: "" as String,
+  total_users: 0,
+  total_users_active: 0,
+  total_users_deactive: 0
 });
-
-export interface IUserInfo {
-  _id: string
-  first_name: string
-  middle_name: string
-  last_name: string
-  image: string
-  email: string
-  password: string
-  username: string
-  date_created: string
-}
-
-export interface INewUserInfo {
-  first_name: string
-  middle_name: string
-  last_name: string
-  image: string
-  email: string
-  username: string
-}
-
-export type TNewUserInfo = {
-  first_name: string
-  middle_name: string
-  last_name: string
-  image: string
-  email: string
-  username: string
-}
-
-export type TUserInfo = {
-  _id: string
-  first_name: string
-  middle_name: string
-  last_name: string
-  image: string
-  email: string
-  password: string
-  username: string
-  date_created: string
-}

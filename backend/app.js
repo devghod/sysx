@@ -22,6 +22,8 @@ mongoose.connection.on('error', (error) => console.error(`Database ${error}`));
 const indexjs = require("./index");
 const authRoute = require("./src/routes/authRoute");
 const usersRoute = require("./src/routes/usersRoute");
+const rolesRoute = require("./src/routes/rolesRoute");
+const logsRoute = require("./src/routes/logsRoute");
 
 app.get('/', (req, res) => {
   const result = indexjs.welcomeFunction();
@@ -31,6 +33,8 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', authRoute);
 app.use('/api/users', usersRoute);
+app.use('/api/roles', rolesRoute);
+app.use('/api/logs', logsRoute);
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);

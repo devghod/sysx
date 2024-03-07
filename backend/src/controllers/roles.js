@@ -1,29 +1,18 @@
-const UsersModel = require('../models/users');
+const RolesModel = require('../models/roles');
 const LogsModel = require('../models/logs');
 
-const getUsers = async (req, res, next) => {
+const getRoles = async (req, res, next) => {
   try {
-    const users = await UsersModel
-      .find({ deleted: false, status: "Active" })
-      .select({ 
-        first_name: 1, 
-        middle_name: 1, 
-        last_name: 1, 
-        email: 1,
-        status: 1,
-        username: 1,
-        date_created: 1,
-        image: 1,
-        gender: 1
-      });
+    const roles = await RolesModel
+      .find({ deleted: false, status: "Active" });
 
     res
       .status(200)
       .json({ 
-        users: users, 
-        total: users.length,
+        roles: roles, 
+        total: roles.length,
         success: true, 
-        message: 'USERS' 
+        message: 'ROLES' 
       });
 
   } catch (error) {
@@ -31,30 +20,19 @@ const getUsers = async (req, res, next) => {
   }
 }
 
-const getUserById = async (req, res, next) => {
+const getRoleById = async (req, res, next) => {
   try {
     const id = req.params.id;
 
-    const user = await UsersModel
-      .findOne({ _id: id })
-      .select({ 
-        first_name: 1, 
-        middle_name: 1, 
-        last_name: 1, 
-        email: 1,
-        status: 1,
-        username: 1,
-        date_created: 1,
-        image: 1,
-        gender: 1
-      });
+    const role = await RolesModel
+      .findOne({ _id: id });
 
     res
       .status(200)
       .json({ 
-        data: user, 
+        data: role, 
         success: true, 
-        message: 'USER' 
+        message: 'ROLE' 
       });
 
   } catch (error) {
@@ -62,7 +40,7 @@ const getUserById = async (req, res, next) => {
   }
 }
 
-const getUsersByFilter = async (req, res, next) => {
+const getRolesByFilter = async (req, res, next) => {
   try {
     let match = {};
     
@@ -72,30 +50,18 @@ const getUsersByFilter = async (req, res, next) => {
       match = { $match: { "status": "Active" } };
     }
 
-    const users = await UsersModel.aggregate([
+    const roles = await RolesModel.aggregate([
       match,
-      {
-        $project: {
-          first_name: 1, 
-          middle_name: 1, 
-          last_name: 1, 
-          email: 1,
-          status: 1,
-          username: 1,
-          date_created: 1,
-          image: 1,
-          gender: 1
-        }
-      }
+      {}
     ]);
 
     res
       .status(200)
       .json({ 
-        users: users, 
-        total: users.length,
+        roles: roles, 
+        total: roles.length,
         success: true, 
-        message: 'USER filtered' 
+        message: 'ROLES filtered' 
       });
 
   } catch (error) {
@@ -103,43 +69,15 @@ const getUsersByFilter = async (req, res, next) => {
   }
 }
 
-const getUsersStatistics = async (req, res, next) => {
-  try {
-    
-    const users = await UsersModel
-      .find()
-      .select({ 
-        status: 1,
-      });
-
-    const total_users = users.length;
-    const total_users_active = users.filter(user => user.status == 'Active').length;
-    const total_users_deactive = users.filter(user => user.status == 'Deactive').length;
-
-    res
-      .status(200)
-      .json({ 
-        total_users: total_users,
-        total_users_active: total_users_active,
-        total_users_deactive: total_users_deactive,
-        success: true, 
-        message: 'USERS statistics' 
-      });
-
-  } catch (error) {
-    res.status(400).json({ success: false, message: `Error ${error}` });
-  }
-}
-
-const addUser = async (req, res, next) => {
+const addRole = async (req, res, next) => {
   try {
     const body = req.body;
     const requester = req.user;
-    const createUser = new UsersModel({ ...body });
-    const result = await createUser.save();
+    const createRole = new RolesModel({ ...body });
+    const result = await createRole.save();
 
     await new LogsModel({
-      description: "New User",
+      description: "New Role",
       created_for: result._id,
       created_by: requester._id,
     }).save();
@@ -162,30 +100,30 @@ const addUser = async (req, res, next) => {
   }
 }
 
-const updateUser = async (req, res, next) => {
+const updateRole = async (req, res, next) => {
   try {
     const body = req.body;
     const id = req.params.id;
     const requester = req.user;
 
-    const updateUser = await UsersModel
+    const updateRole = await RolesModel
       .findOneAndUpdate(
         { _id: id }, 
         { ...body }, 
         { new: true, useFindAndModify: false }
       );
 
-    if (updateUser === null) {
+    if (updateRole === null) {
       return res
               .status(200)
               .json({ 
                 success: false, 
-                message: 'No user exist' 
+                message: 'No role exist' 
               });
     }
 
     await new LogsModel({
-      description: "Update User",
+      description: "Update Role",
       created_for: id,
       created_by: requester._id,
     }).save();
@@ -193,7 +131,7 @@ const updateUser = async (req, res, next) => {
     res
       .status(200)
       .json({ 
-        data: updateUser, 
+        data: updateRole, 
         success: true, 
         message: 'UPDATED' 
       });
@@ -203,18 +141,18 @@ const updateUser = async (req, res, next) => {
   }
 }
 
-const updateUserStatus = async (req, res, next) => {
+const updateRoleStatus = async (req, res, next) => {
   try {
     const id = req.params.id;
     const requester = req.user;
     let statusChange = "";
 
-    const status = UsersModel
+    const status = RolesModel
                     .findOne({ _id: id })
                     .select({ status: 1 });
 
     if (!status) {
-      return res.json({ success: false, message: 'User not found' });
+      return res.json({ success: false, message: 'Role not found' });
     }
 
     if (status === "Active") {
@@ -223,7 +161,7 @@ const updateUserStatus = async (req, res, next) => {
       statusChange = "Active";
     }
 
-    const user = await UsersModel
+    const role = await RolesModel
       .findOneAndUpdate(
         { _id: id }, 
         { status: statusChange }, 
@@ -231,14 +169,14 @@ const updateUserStatus = async (req, res, next) => {
       );
 
     await new LogsModel({
-      description: "Update User Status",
+      description: "Update Role Status",
       created_for: id,
       created_by: requester._id,
     }).save();
     
     res
       .json({ 
-        data: user, 
+        data: role, 
         success: true, 
         message: 'DEACTIVATED' 
       });
@@ -248,27 +186,27 @@ const updateUserStatus = async (req, res, next) => {
   }
 }
 
-const deleteUser = async (req, res, next) => {
+const deleteRole = async (req, res, next) => {
   try {
     const id = req.params.id;
     const requester = req.user;
 
-    const deletedUser = await UsersModel
+    const deleteRole = await RolesModel
       .findOneAndDelete(
         { _id: id }
       );
 
-    if (deletedUser === null) {
+    if (deleteRole === null) {
       return res
-              .status(200)
-              .json({ 
-                success: false, 
-                message: 'No user exist' 
-              });
+        .status(200)
+        .json({ 
+          success: false, 
+          message: 'No role exist' 
+        });
     }
 
     await new LogsModel({
-      description: "Delete User",
+      description: "Delete Role",
       created_for: id,
       created_by: requester._id,
     }).save();
@@ -276,7 +214,7 @@ const deleteUser = async (req, res, next) => {
     res
       .status(200)
       .json({ 
-        data: deletedUser, 
+        data: deleteRole, 
         success: true, 
         message: 'DELETED' 
       });
@@ -287,12 +225,11 @@ const deleteUser = async (req, res, next) => {
 }
 
 module.exports = { 
-  getUsers, 
-  getUserById, 
-  getUsersByFilter, 
-  getUsersStatistics,
-  addUser, 
-  updateUser, 
-  deleteUser, 
-  updateUserStatus 
+  getRoles, 
+  getRoleById, 
+  getRolesByFilter, 
+  addRole, 
+  updateRole, 
+  deleteRole, 
+  updateRoleStatus 
 };
