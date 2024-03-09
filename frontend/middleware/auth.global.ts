@@ -3,7 +3,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   const { verify, logoutUser } = useAuthStore();
   const token = useCookie('token'); // get token from cookies
   const directory = to?.name;
-  console.log(directory)
+
   if (directory === 'index') {
     if (!token.value) {
       return

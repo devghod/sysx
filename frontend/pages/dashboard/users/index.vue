@@ -26,10 +26,7 @@
               <div>
                 <button class="btn btn-primary btn-sm" @click="isOpenModalAddUser">
                   <Icon name="lets-icons:add-duotone" color="" width="20" height="20" />
-                  <div v-if="loading">
-                    <span class="loading loading-spinner"></span>
-                  </div>
-                  <div v-else>New User</div>
+                  New User
                 </button>
               </div>
             </div>
@@ -58,7 +55,7 @@
   });
 
   const { fetchUsersByFilter } = useUserStore();
-  const { users, loading, total, limit, skip } = storeToRefs(useUserStore());
+  const { users, loading: userLoading, total, limit, skip } = storeToRefs(useUserStore());
   const store = useUserStore();
   const paginates = computed(() => total.value / limit.value);
   const page = ref(1);

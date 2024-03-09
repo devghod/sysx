@@ -139,7 +139,7 @@ const addUser = async (req, res, next) => {
     const result = await createUser.save();
 
     await new LogsModel({
-      description: "New User",
+      description: `Create user ${result.first_name}`,
       created_for: result._id,
       created_by: requester._id,
     }).save();
@@ -185,7 +185,7 @@ const updateUser = async (req, res, next) => {
     }
 
     await new LogsModel({
-      description: "Update User",
+      description: `Update user ${updateUser.first_name}`,
       created_for: id,
       created_by: requester._id,
     }).save();
@@ -231,7 +231,7 @@ const updateUserStatus = async (req, res, next) => {
       );
 
     await new LogsModel({
-      description: "Update User Status",
+      description: `Update user ${user.first_name} status`,
       created_for: id,
       created_by: requester._id,
     }).save();
@@ -253,7 +253,11 @@ const deleteUser = async (req, res, next) => {
     const id = req.params.id;
     const requester = req.user;
 
-    const deletedUser = await UsersModel
+    const user = await UsersModel
+      .findOne({ _id: id })
+      .select({ first_name: 1 });
+    
+      const deletedUser = await UsersModel
       .findOneAndDelete(
         { _id: id }
       );
@@ -268,7 +272,7 @@ const deleteUser = async (req, res, next) => {
     }
 
     await new LogsModel({
-      description: "Delete User",
+      description: `Delete user ${user.first_name}`,
       created_for: id,
       created_by: requester._id,
     }).save();

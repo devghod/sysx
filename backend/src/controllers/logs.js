@@ -31,7 +31,7 @@ const getLogsPaginate = async (req, res, next) => {
       .limit(limit)
       .skip(skip)
       .populate(['created_by', 'created_for']);
-
+      
     res
       .status(200)
       .json({ 

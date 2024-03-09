@@ -3,7 +3,8 @@ const bcrypt = require('bcrypt');
 
 const logsSchema = new mongoose.Schema({
   created_for: {
-   type: String,
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Users' 
   },
   description: {
     type: String
@@ -21,7 +22,8 @@ const logsSchema = new mongoose.Schema({
     default: Date.now
   },
   created_by: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Users' 
   },
   deleted: {
     type: Boolean,

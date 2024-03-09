@@ -44,9 +44,11 @@ export const actions = {
 
     try {
       const config = useRuntimeConfig();
+      this.limit = limit;
+
       const body = {
-        skip: skip,
-        limit: limit
+        skip: this.skip,
+        limit: this.limit
       }
       const result: any = await $fetch(`${config.public.apiBaseUrl}${controller}/post-logs`, {
         method: 'POST',
@@ -61,9 +63,8 @@ export const actions = {
 
       if (success) {
         this.logs.push(...logs);
+        this.skip = this.skip + skip;
         this.total = total;
-        this.skip = skip;
-        this.limit = limit;
         this.loading = false;
       } else {
         console.log("Error",error);

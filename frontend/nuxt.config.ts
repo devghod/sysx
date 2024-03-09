@@ -19,6 +19,7 @@ export default defineNuxtConfig({
   pinia: {
     storesDirs: ['./stores/**', './custom-folder/stores/**'],
   },
+  plugins: ['~/plugins/vue-virtual-scroller.js'],
   daisyui: {
     themes: [
       {

@@ -2,7 +2,7 @@
   <div>
     <div class="m-2">
       <div class="overflow-x-auto">
-        <div v-if="loading" class="flex flex-col gap-4">
+        <div v-if="userLoading" class="flex flex-col gap-4">
           <div class="skeleton h-4 w-full"></div>
           <div class="skeleton h-4 w-full"></div>
           <div class="skeleton h-4 w-full"></div>
@@ -158,7 +158,7 @@
   import { storeToRefs } from 'pinia';
 
   const { fetchUser, clearAll, deleteUser, updateUserStatus } = useUserStore();
-  const { loading } = storeToRefs(useUserStore());
+  const { loading: userLoading } = storeToRefs(useUserStore());
   const store = useUserStore();
   const selectedUser = ref<TUserInfo | null>(store.user);
   const openModalDetailUser = ref(false); 
