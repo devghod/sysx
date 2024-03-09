@@ -232,4 +232,4 @@ module.exports = {
   updateRole, 
   deleteRole, 
   updateRoleStatus 
-};
+}

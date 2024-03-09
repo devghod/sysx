@@ -20,6 +20,7 @@ mongoose.connection.on('close', () => console.log('Database close'));
 mongoose.connection.on('error', (error) => console.error(`Database ${error}`));
 
 const indexjs = require("./index");
+const testRoute = require("./src/routes/testRoute");
 const authRoute = require("./src/routes/authRoute");
 const usersRoute = require("./src/routes/usersRoute");
 const rolesRoute = require("./src/routes/rolesRoute");
@@ -31,6 +32,7 @@ app.get('/', (req, res) => {
   res.send(`Hello World! ${result}`);
 });
 
+app.use('/api/test', testRoute);
 app.use('/api/auth', authRoute);
 app.use('/api/users', usersRoute);
 app.use('/api/roles', rolesRoute);

@@ -49,4 +49,4 @@ const getLogsPaginate = async (req, res, next) => {
 module.exports = { 
   getLogs, 
   getLogsPaginate
-};
+}

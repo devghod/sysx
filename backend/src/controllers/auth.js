@@ -94,4 +94,4 @@ const verify = async (req, res, next) => {
   }
 }
 
-module.exports = { register, login, verify };
+module.exports = { register, login, verify }
