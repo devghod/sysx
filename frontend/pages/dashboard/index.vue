@@ -39,11 +39,11 @@
               <div class="text-xs text-slate-400" >{{ log.description }}</div>
             </li>
           </ul> -->
-           <DynamicScroller :items="logs" item-height="50">
+           <!-- <DynamicScroller :items="logs" item-height="50">
               <template #item="{ index, item }">
                 <ListItem :key="index">{{ item.created_by.first_name }}</ListItem>
               </template>
-            </DynamicScroller>
+            </DynamicScroller> -->
         </div>
       </div>
     </div>
@@ -121,6 +121,8 @@
 
 <script setup lang="ts">
 
+  // import Vue from 'vue';
+  // import { DynamicScroller, ListItem } from 'vue-virtual-scroller';
   import { useUserStore } from '~/stores/users';
   import { useLogStore } from '~/stores/logs';
   import { storeToRefs } from 'pinia';
@@ -165,3 +167,7 @@
     }
 
 </script>
+
+<style scoped>
+  @import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
+</style>
