@@ -14,12 +14,13 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
     "@pinia/nuxt",
     "@nuxt/image",
+    "@nuxt/ui",
     "nuxt-icon",
   ],
   pinia: {
     storesDirs: ['./stores/**', './custom-folder/stores/**'],
   },
-  plugins: ['~/plugins/vue-virtual-scroller.js'],
+  // plugins: ['~/plugins/vue-virtual-scroller.js'],
   daisyui: {
     themes: [
       {
