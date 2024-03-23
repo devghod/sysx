@@ -25,8 +25,32 @@
     </v-list>
     
     <v-divider></v-divider>
+
+    <ul>
+      <li 
+        v-for="(menu, index) in menus" :key="index"
+        @click="reRouter(menu.directory)"
+        class="bg-slate-100 hover:bg-slate-500 hover:text-slate-100 py-2"
+        :class="{
+          'text-center': rail,
+          'px-4': !rail
+        }"
+      >
+        <span 
+          :class="menu.icon"
+        ></span> {{ }}
+        <span 
+          class="font-semibold text-sm ml-2"
+          :class="{
+            'hidden': rail,
+          }"
+        >
+          {{ menu.name }}
+        </span> 
+      </li>
+    </ul>
     
-    <v-list
+    <!-- <v-list
       density="compact"
       nav
       color="#B39DDB"
@@ -44,10 +68,10 @@
           <v-icon :color="menu.color"></v-icon>
         </template>
         <template v-slot:title>
-          <div class="text-h6 text-grey">{{ menu.name }}</div>
+          <div class="text-h6 text-grey hover:text-grey-100">{{ menu.name }}</div>
         </template>
       </v-list-item>
-    </v-list>
+    </v-list> -->
   </v-navigation-drawer>
 </template>
 
@@ -66,25 +90,25 @@
     {
       "name": "Dashboard",
       "directory": "/dashboard",
-      "icon": "mdi-view-dashboard",
+      "icon": "mdi mdi-view-dashboard",
       "color": "#2196F3"
     },
     {
       "name": "Users",
       "directory": "/dashboard/users",
-      "icon": "mdi-account-group",
+      "icon": "mdi mdi-account-group",
       "color": "warning"
     },
     {
       "name": "Loans",
       "directory": "/dashboard/loans",
-      "icon": "mdi-account-cash",
+      "icon": "mdi mdi-account-cash",
       "color": "primary"
     },
     {
       "name": "Settings",
       "directory": "/dashboard/settings",
-      "icon": "mdi-cog",
+      "icon": "mdi mdi-cog",
       "color": "error"
     },
   ]);

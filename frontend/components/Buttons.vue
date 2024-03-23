@@ -92,7 +92,7 @@
 <script lang="ts" setup>
 
   interface ButtonProps {
-    label: string;
+    label?: string;
     type?: string;
     isOpen?: boolean;
     loading?: boolean;
