@@ -24,8 +24,8 @@ export const actions = {
       
       if (success) {
         this.token = token.token; 
-        this.authenticated = true;
         this.profile = profile;
+        this.authenticated = true;
         this.loading = false;
       } else {
         this.authenticated = false;
@@ -58,7 +58,9 @@ export const actions = {
         token.value = tkn; 
         this.authenticated = true;
         this.errorMessage = "";
-        this.loading = false;
+        setTimeout(() => {
+          this.loading = false;
+        },5000);
       } else {
         this.authenticated = false;
         this.errorMessage = message;

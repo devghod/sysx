@@ -8,7 +8,7 @@
           <div class="skeleton h-4 w-full"></div>
           <div class="skeleton h-4 w-full"></div>
         </div>
-        <table v-else class="table">
+        <v-table v-else class="table">
           <thead>
             <tr>
               <th></th>
@@ -101,7 +101,7 @@
               </td>
             </tr>
           </tbody>
-        </table>
+        </v-table>
         <!-- <div class="join mt-4">
           <button 
             v-if="paginates % 1 === 0"

@@ -25,6 +25,7 @@ const authRoute = require("./src/routes/authRoute");
 const usersRoute = require("./src/routes/usersRoute");
 const rolesRoute = require("./src/routes/rolesRoute");
 const logsRoute = require("./src/routes/logsRoute");
+const configurationsRoute = require("./src/routes/configurationsRoute");
 
 app.get('/', (req, res) => {
   const result = indexjs.welcomeFunction();
@@ -37,6 +38,7 @@ app.use('/api/auth', authRoute);
 app.use('/api/users', usersRoute);
 app.use('/api/roles', rolesRoute);
 app.use('/api/logs', logsRoute);
+app.use('/api/configurations', configurationsRoute);
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);

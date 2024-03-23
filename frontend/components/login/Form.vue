@@ -93,14 +93,13 @@
         </div>
       </div>
       <div class="">
-        <button
-          class="btn btn-primary btn-block"
-          :class="{ 'btn btn-disabled': loading }"
+        <Buttons 
+          type="primary" 
+          :fullWidth="true"
+          :loading="loading"
+          label="Sign In"
           @click="submit"
-        >
-          <span v-if="loading" class="loading loading-spinner"></span>
-          <div v-else>Sign in</div>
-        </button>
+        />
       </div>
     </div>
   </div>

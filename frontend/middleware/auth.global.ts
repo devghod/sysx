@@ -25,7 +25,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     if (authenticated.value) {
       return navigateTo('/dashboard');
     } else {
-      console.log(authenticated.value)
       logoutUser();
       abortNavigation();
       return navigateTo('/login');

@@ -257,7 +257,7 @@ const deleteUser = async (req, res, next) => {
       .findOne({ _id: id })
       .select({ first_name: 1 });
     
-      const deletedUser = await UsersModel
+    const deletedUser = await UsersModel
       .findOneAndDelete(
         { _id: id }
       );

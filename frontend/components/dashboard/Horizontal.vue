@@ -1,74 +1,133 @@
 <template>
-  <div class="navbar shadow">
-    <div class="flex-1">
-      <figure>
-        <NuxtImg
-          :src="companyDetails.logoUrl" 
-          width="100"
-          alt="Logo here"
-        />
-      </figure>
-    </div>
-    <div class="flex-none">
-      <div class="dropdown dropdown-end">
-        <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
-          <div class="indicator">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-            <span class="badge badge-sm indicator-item">8</span>
-          </div>
+  <v-app-bar>
+    <template v-slot:prepend>
+      <Buttons
+        v-if="rail"
+        @click="updateRail"
+        type="icon"
+        icon="mdi mdi-menu-close" 
+      />
+      <Buttons
+        v-else
+        @click="updateRail"
+        type="icon"
+        icon="mdi mdi-menu-open" 
+      />
+    </template>
+
+    <template v-slot:append>
+      <div class="flex space-x-4 mr-2 ">
+        <div class="self-center">
+          <!-- On -->
+          <Buttons
+            v-if="theme.global.current.value.dark"
+            @click="toggleTheme"
+            type="icon"
+            icon="mdi mdi-lightbulb-on" 
+          />
+          <!-- Off -->
+          <Buttons
+            v-else
+            @click="toggleTheme"
+            type="icon"
+            icon="mdi mdi-lightbulb-on-10" 
+          />
         </div>
-        <div tabindex="0" class="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
-          <div class="card-body">
-            <span class="font-bold text-lg">8 Items</span>
-            <span class="text-info">Subtotal: $999</span>
-            <div class="card-actions">
-              <button class="btn btn-primary btn-block">View cart</button>
-            </div>
-          </div>
+        <div>
+          <v-menu>
+            <template v-slot:activator="{ props }">
+              <Buttons
+                v-if="profileOrDots == 'profile'"
+                v-bind="props"
+                type="profile"
+                :data="profile" 
+              />
+              <Buttons
+                v-if="profileOrDots == 'dots'"
+                v-bind="props"
+                type="icon"
+                icon="mdi mdi-dots-vertical" 
+              />
+            </template>
+
+            <v-list
+              max-width="200"
+              min-width="200"
+            >
+              <v-list-item 
+                value="1"
+                to="/dashboard/profile"
+                base-color="#2196F3"
+              >
+                <span class="text-sm font-semibold">
+                  Profile
+                </span>
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item 
+                value="2" 
+                to="/dashboard/settings"
+              >
+                <span class="text-sm font-semibold">
+                  Settings
+                </span>
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item 
+                value="3" 
+                @click="logout"
+              >
+                <span class="text-sm font-semibold text-red-500">
+                  Log Out
+                </span>
+              </v-list-item>
+            </v-list>
+          </v-menu>
         </div>
       </div>
-      <div class="dropdown dropdown-end">
-        <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
-          <div class="w-10 rounded-full">
-            <NuxtImg
-              v-if="profile?.image"
-              :src="profile?.image ? profile.image : ''" 
-              :alt="`${profile.first_name} ${profile.last_name}`"
-              loading="lazy"
-            />
-          </div>
-        </div>
-        <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-          <li>
-            <a class="justify-between">
-              Profile
-              <span class="badge">New</span>
-            </a>
-          </li>
-          <li><a href="/dashboard/settings">Settings</a></li>
-          <li><a @click="logout">Logout</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
+    </template>
+  </v-app-bar>
 </template>
 
 <script setup lang="ts">
 
   import { useAuthStore } from '~/stores/auth';
   import { storeToRefs } from 'pinia';
+  import { useTheme } from 'vuetify';
 
+  const theme = useTheme();
   const { profile } = storeToRefs(useAuthStore());
   const { logoutUser } = useAuthStore();
+  const router = useRouter();
+  const profileOrDots = ref('dots'); // profile, dots 
+
   const companyDetails = ref({
     name: "Company name here",
     logoUrl: "https://img.logoipsum.com/323.svg"
   });
-  const router = useRouter();
+  
+  const props = defineProps({
+    rail: { type: Boolean },
+  });
+
+  const emit = defineEmits([
+    'updateRail', 
+  ]);
+
+  const updateRail = () => {
+    emit('updateRail');
+  };
 
   const logout = () => {
     logoutUser();
     router.push('/login');
+  }
+
+  const toggleTheme = () => {
+    theme.global.name.value = 
+      theme.global.current.value.dark ? 
+      'light' : 
+      'dark'
   }
 
 </script>

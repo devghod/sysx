@@ -39,11 +39,15 @@
               <div class="text-xs text-slate-400" >{{ log.description }}</div>
             </li>
           </ul> -->
-           <!-- <DynamicScroller :items="logs" item-height="50">
-              <template #item="{ index, item }">
-                <ListItem :key="index">{{ item.created_by.first_name }}</ListItem>
-              </template>
-            </DynamicScroller> -->
+          
+          <v-infinite-scroll :height="300" :items="logs" :onLoad="onFetchLogsPaginate">
+            <template v-for="(log, index) in logs" :key="index">
+              <div :class="['pa-2', index % 2 === 0 ? 'bg-grey-lighten-2' : '']">
+                Item #{{ log.created_by.first_name }}
+              </div>
+            </template>
+          </v-infinite-scroll>
+
         </div>
       </div>
     </div>
@@ -121,8 +125,6 @@
 
 <script setup lang="ts">
 
-  // import Vue from 'vue';
-  // import { DynamicScroller, ListItem } from 'vue-virtual-scroller';
   import { useUserStore } from '~/stores/users';
   import { useLogStore } from '~/stores/logs';
   import { storeToRefs } from 'pinia';
@@ -167,7 +169,3 @@
     }
 
 </script>
-
-<style scoped>
-  @import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
-</style>
