@@ -16,6 +16,7 @@ export default defineNuxtConfig({
   modules: [
     "@nuxt/devtools",
     "@nuxtjs/tailwindcss",
+    "@nuxtjs/color-mode",
     "@pinia/nuxt",
     "@nuxt/image",
     "nuxt-icon",
@@ -33,7 +34,11 @@ export default defineNuxtConfig({
       },
     },
   },
-
+  colorMode: {
+    preference: 'light', // default value of $colorMode.preference
+    fallback: 'light', // fallback value if not system preference found
+    classSuffix: '',
+  },
   // buildModules: [
   //   "@nuxtjs/vuetify",
   // ],

@@ -4,7 +4,7 @@
       <DashboardVertical :rail="rail" />
       <DashboardHorizontal :rail="rail" @updateRail="updateRail" />
       <v-main class="d-flex align-center justify-center bg-gray-200" style="min-height: 300px;">
-        <slot />
+        <NuxtPage />
       </v-main>
     </v-app>
   </div>

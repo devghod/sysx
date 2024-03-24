@@ -4,6 +4,7 @@ import colors from 'vuetify/util/colors';
 
 export default defineNuxtPlugin((app) => {
   const vuetify = createVuetify({
+    
     // defaults: {
     //   VBtn: {
     //     color: '#2f8bcc',
@@ -13,8 +14,9 @@ export default defineNuxtPlugin((app) => {
     // },
   
     theme: {
-      themes: {
-        light: {
+      // defaultTheme: 'dark',
+      // themes: {
+        // light: {
           // dark: false,
           // colors: {
           //   primary: colors.red.darken1, // #E53935
@@ -30,8 +32,8 @@ export default defineNuxtPlugin((app) => {
           //   success: '#4CAF50',
           //   warning: '#FB8C00',
           // }
-        },
-      },
+        // },
+      // },
     },
   });
   app.vueApp.use(vuetify)

@@ -95,7 +95,8 @@
   import { storeToRefs } from 'pinia';
   import { useTheme } from 'vuetify';
 
-  const theme = useTheme();
+  const theme = useTheme(); // vuetify theme
+  const colorMode = useColorMode(); // tailwindcss
   const { profile } = storeToRefs(useAuthStore());
   const { logoutUser } = useAuthStore();
   const router = useRouter();
@@ -123,11 +124,19 @@
     router.push('/login');
   }
 
+  console.log(theme.global.current.value)
+  console.log("-", colorMode.value, colorMode.preference)
+
+  // Set theme mode default
   const toggleTheme = () => {
-    theme.global.name.value = 
-      theme.global.current.value.dark ? 
-      'light' : 
-      'dark'
+    // if (theme.global.current.value.dark) {
+    //   theme.global.name.value = 'light';
+    //   colorMode.value = 'light';
+    // } else {
+    //   theme.global.name.value = 'dark';
+    //   colorMode.value = 'dark';
+    // }
+    colorMode.preference = colorMode.preference === 'dark' ? 'light' : 'dark';
   }
 
 </script>

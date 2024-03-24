@@ -131,8 +131,8 @@
     'handleSubmit',
   ]);
 
-  const submit = async () => {
-    emit('handleSubmit')
+  const submit = () => {
+    emit('handleSubmit');
   }
 
 </script>
