@@ -1,28 +1,34 @@
 <template>
-  <v-navigation-drawer
-    :rail="rail"
-    :width="200"
-  >
-    <v-list>
-      <v-list-item>
-        <NuxtImg
-          :src="companyDetails.logoUrl" 
-          width="100"
-          alt="Logo here"
-        />
-      </v-list-item>
-    </v-list>
+  <div class="dark:bg-slate-700 shadow">
+    <div class="dark:bg-slate-700">
+      <NuxtImg
+        :src="companyDetails.logoUrl" 
+        width="100"
+        alt="Logo here"
+        class="mx-auto my-2"
+      />
+    </div>
 
     <v-divider></v-divider>
-    
-    <v-list>
-      <v-list-item
-        prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg"
-        subtitle="sandra_a88@gmailcom"
-        title="Sandra Adams"
-        lines="two"
-      ></v-list-item>
-    </v-list>
+
+    <div class="flex items-center gap-4 p-2 bg-slate-300">
+      <span class="h-12 w-12">
+        <NuxtImg
+          src="https://randomuser.me/api/portraits/women/85.jpg" 
+          width="100"
+          alt="Profile here"
+          class="rounded-full"
+        />
+      </span>
+      <span class="hidden text-right lg:block">
+        <span class="block text-sm font-medium text-black dark:text-slate-700">
+          Sandra Adams
+        </span>
+        <span class="block text-xs font-medium text-slate-400">
+          sandra_a88@gmailcom
+        </span>
+      </span>
+    </div>
     
     <v-divider></v-divider>
     
@@ -51,7 +57,7 @@
         </li>
       </ul>
     </nav>
-  </v-navigation-drawer>
+  </div>
 </template>
 
 <script setup lang="ts">

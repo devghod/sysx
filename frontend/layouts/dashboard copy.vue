@@ -1,17 +1,11 @@
 <template>
   <div>
     <v-app>
-      <div class="flex h-screen overflow-hidden">
-        <DashboardVertical :rail="rail" />
-        <div class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
-          <DashboardHorizontal :rail="rail" @updateRail="updateRail" />
-          <main>
-            <div class="mx-auto md:p-6 2xl:p-10 bg-gray-200">
-              <NuxtPage />
-            </div>
-          </main>
-        </div>
-      </div>
+      <DashboardVertical :rail="rail" />
+      <DashboardHorizontal :rail="rail" @updateRail="updateRail" />
+      <v-main class="d-flex align-center justify-center bg-gray-200" style="min-height: 300px;">
+        <NuxtPage />
+      </v-main>
     </v-app>
   </div>
 </template>

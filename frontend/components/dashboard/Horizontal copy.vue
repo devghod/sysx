@@ -1,6 +1,6 @@
 <template>
-  <div class="grid grid-cols-6 gap-4 dark:bg-slate-700 dark:text-slate-100 shadow">
-    <div class="col-start-1 col-end-3 self-center mx-5">
+  <v-app-bar>
+    <template v-slot:prepend>
       <Buttons
         v-if="rail"
         @click="updateRail"
@@ -13,9 +13,10 @@
         type="icon"
         icon="mdi mdi-menu-open" 
       />
-    </div>
-    <div class="col-end-7 col-span-1">
-      <div class="flex space-x-4 justify-end mx-5 my-4">
+    </template>
+
+    <template v-slot:append>
+      <div class="flex space-x-4 mr-2 ">
         <div class="self-center">
           <!-- On -->
           <Buttons
@@ -32,7 +33,7 @@
             icon="mdi mdi-lightbulb-on-10" 
           />
         </div>
-        <div class="dark:bg-slate-700">
+        <div>
           <v-menu>
             <template v-slot:activator="{ props }">
               <Buttons
@@ -49,33 +50,43 @@
               />
             </template>
 
-            <ul class="w-40 rounded bg-white dark:bg-slate-700 dark:text-slate-300 shadow border dark:border-slate-500">
-              <li class="border-b dark:border-slate-500 my-2">
-                <nuxt-link to="/dashboard/profile">
-                  <span class="text-sm font-semibold m-4">
-                    Profile
-                  </span>
-                </nuxt-link>
-              </li>
-              <li class="border-b dark:border-slate-500 my-2">
-                <nuxt-link to="/dashboard/settings">
-                  <span class="text-sm font-semibold m-4">
-                    Settings
-                  </span>
-                </nuxt-link>
-              </li>
-              <li class="my-2" @click="logout">
-                <span class="text-sm font-semibold text-red-500 mx-4">
-                  Sign Out
+            <v-list
+              max-width="200"
+              min-width="200"
+            >
+              <v-list-item 
+                value="1"
+                to="/dashboard/profile"
+                base-color="#2196F3"
+              >
+                <span class="text-sm font-semibold">
+                  Profile
                 </span>
-              </li>
-            </ul>
-
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item 
+                value="2" 
+                to="/dashboard/settings"
+              >
+                <span class="text-sm font-semibold">
+                  Settings
+                </span>
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item 
+                value="3" 
+                @click="logout"
+              >
+                <span class="text-sm font-semibold text-red-500">
+                  Log Out
+                </span>
+              </v-list-item>
+            </v-list>
           </v-menu>
         </div>
       </div>
-    </div>
-  </div>
+    </template>
+  </v-app-bar>
 </template>
 
 <script setup lang="ts">
