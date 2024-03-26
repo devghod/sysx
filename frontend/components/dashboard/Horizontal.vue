@@ -50,21 +50,17 @@
             </template>
 
             <ul class="w-40 rounded bg-white dark:bg-slate-700 dark:text-slate-300 shadow border dark:border-slate-500">
-              <li class="border-b dark:border-slate-500 my-2">
-                <nuxt-link to="/dashboard/profile">
-                  <span class="text-sm font-semibold m-4">
-                    Profile
-                  </span>
-                </nuxt-link>
+              <li class="border-b dark:border-slate-500 py-2 hover:bg-blue-400" @click="reRouter('/dashboard/profile')">
+                <span class="text-sm font-semibold m-4">
+                  Profile
+                </span>
               </li>
-              <li class="border-b dark:border-slate-500 my-2">
-                <nuxt-link to="/dashboard/settings">
-                  <span class="text-sm font-semibold m-4">
-                    Settings
-                  </span>
-                </nuxt-link>
+              <li class="border-b dark:border-slate-500 py-2 hover:bg-blue-400" @click="reRouter('/dashboard/settings')">
+                <span class="text-sm font-semibold m-4">
+                  Settings
+                </span>
               </li>
-              <li class="my-2" @click="logout">
+              <li class="py-2 hover:bg-blue-400" @click="logout">
                 <span class="text-sm font-semibold text-red-500 mx-4">
                   Sign Out
                 </span>
@@ -111,6 +107,10 @@
   const logout = () => {
     logoutUser();
     router.push('/login');
+  }
+
+  const reRouter = (data: String) => {
+    router.push(data);
   }
 
   // Set theme mode default

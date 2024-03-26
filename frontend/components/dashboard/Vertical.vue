@@ -1,30 +1,43 @@
 <template>
-  <div class="dark:bg-slate-700 shadow">
+  <div class="dark:bg-slate-700 shadow dark:shadow-white ease-in-out duration-300">
     <div class="dark:bg-slate-700">
       <NuxtImg
         :src="companyDetails.logoUrl" 
-        width="100"
         alt="Logo here"
-        class="mx-auto my-2"
+        class="mx-auto m-2"
+        :class="{
+          'h-4': rail,
+          'h-12': !rail,
+        }"
       />
     </div>
 
     <v-divider></v-divider>
 
-    <div class="flex items-center gap-4 p-2 bg-slate-300">
-      <span class="h-12 w-12">
+    <div class="flex gap-2 items-center justify-center bg-slate-300 p-2 shadow shadow-inner">
+      <span>
         <NuxtImg
-          src="https://randomuser.me/api/portraits/women/85.jpg" 
-          width="100"
+          src="https://randomuser.me/api/portraits/women/85.jpg"
           alt="Profile here"
-          class="rounded-full"
+          class="rounded-full h-12 w-12"
+          :class="{
+            'h-10 w-10': rail,
+          }"
         />
       </span>
-      <span class="hidden text-right lg:block">
+      <span 
+        class="text-right xs:hidden"
+        v-if="!rail"
+      >
         <span class="block text-sm font-medium text-black dark:text-slate-700">
           Sandra Adams
         </span>
-        <span class="block text-xs font-medium text-slate-400">
+        <span 
+          class="block text-xs font-medium text-slate-500"
+          :class="{
+            'hidden': rail,
+          }"
+        >
           sandra_a88@gmailcom
         </span>
       </span>
@@ -38,10 +51,11 @@
           v-for="(menu, index) in menus" 
           :key="index"
           @click="reRouter(menu.directory)"
-          class="bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400 hover:bg-blue-300 hover:text-slate-100 py-2"
+          class="dark:hover:bg-blue-300 dark:hover:text-slate-100 hover:bg-blue-300 hover:text-slate-100 py-2"
           :class="{
             'text-center': rail,
             'px-4': !rail,
+            'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400': route !== menu.directory,
             'bg-blue-500 text-slate-100 dark:bg-blue-500 dark:text-slate-100': route === menu.directory,
           }"
         >
@@ -90,12 +104,12 @@
       "icon": "mdi mdi-account-cash",
       "color": "primary"
     },
-    {
-      "name": "Settings",
-      "directory": "/dashboard/settings",
-      "icon": "mdi mdi-cog",
-      "color": "error"
-    },
+    // {
+    //   "name": "Settings",
+    //   "directory": "/dashboard/settings",
+    //   "icon": "mdi mdi-cog",
+    //   "color": "error"
+    // },
   ]);
 
   const router = useRouter();

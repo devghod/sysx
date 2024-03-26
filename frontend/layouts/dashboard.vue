@@ -6,7 +6,7 @@
         <div class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
           <DashboardHorizontal :rail="rail" @updateRail="updateRail" />
           <main>
-            <div class="mx-auto md:p-6 2xl:p-10 bg-gray-200">
+            <div class="mx-auto md:p-6 2xl:p-10 bg-gray-200 dark:bg-slate-500">
               <NuxtPage />
             </div>
           </main>
