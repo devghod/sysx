@@ -17,8 +17,16 @@
     <div class="flex gap-2 items-center justify-center bg-slate-300 p-2 shadow shadow-inner">
       <span>
         <NuxtImg
-          src="https://randomuser.me/api/portraits/women/85.jpg"
-          alt="Profile here"
+          :src="
+            profile?.image ? 
+            profile.image : 
+            ''
+          "
+          :alt="
+            profile?.first_name && profile?.last_name ?
+            profile.first_name + ' ' + profile.last_name :
+            ''
+          "
           class="rounded-full h-12 w-12"
           :class="{
             'h-10 w-10': rail,
@@ -30,7 +38,7 @@
         v-if="!rail"
       >
         <span class="block text-sm font-medium text-black dark:text-slate-700">
-          Sandra Adams
+          {{ profile?.first_name }} {{ }} {{ profile?.last_name }}
         </span>
         <span 
           class="block text-xs font-medium text-slate-500"
@@ -38,7 +46,7 @@
             'hidden': rail,
           }"
         >
-          sandra_a88@gmailcom
+          {{ profile?.email }}
         </span>
       </span>
     </div>
@@ -75,6 +83,11 @@
 </template>
 
 <script setup lang="ts">
+
+  import { useAuthStore } from '~/stores/auth';
+  import { storeToRefs } from 'pinia';
+
+  const { profile } = storeToRefs(useAuthStore());
 
   const props = defineProps({
     rail: { type: Boolean },

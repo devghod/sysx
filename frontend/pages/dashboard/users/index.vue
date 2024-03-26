@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div class="card card-compact w-full bg-base-100 shadow">
+    <div class="w-full text-slate-700 dark:text-slate-100 bg-slate-100 dark:bg-slate-700 p-4 rounded-lg shadow">
       <div class="card-body">
         <h2 class="card-title">
           <div class="flex">
@@ -12,7 +12,7 @@
                   @change="handleFetchUsers(1, 'status')" 
                   name="filter" 
                   id="filter" 
-                  class="w-full border rounded text-sm py-1"
+                  class="w-full border rounded text-sm py-1 text-slate-700 dark:text-slate-700"
                 >
                   <option disabled selected>Filter by</option>
                   <option 
@@ -24,10 +24,13 @@
                 </select>
               </div>
               <div>
-                <button class="btn btn-primary btn-sm" @click="isOpenModalAddUser">
-                  <Icon name="lets-icons:add-duotone" color="" width="20" height="20" />
-                  New User
-                </button>
+                <Buttons
+                  @click="isOpenModalAddUser"
+                  type="icon-text"
+                  icon="mdi mdi-plus-circle" 
+                  label="Add User"
+                  bgColor="bg-blue-500"
+                />
               </div>
             </div>
           </div>

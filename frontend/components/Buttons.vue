@@ -60,6 +60,20 @@
       <span :class="icon"></span>
     </button>
 
+    <!-- Icon Text -->
+    <button
+      v-else-if="type === 'icon-text'"
+      class="hover:text-blue-500 bg-blue-500 text-slate-100 py-1 px-2 font-semibold rounded"
+    >
+      <span :class="icon"></span>
+      <span 
+        v-if="label"
+        class="ml-1"
+      >
+        {{ label }}
+      </span>
+    </button>
+
     <!-- Profile -->
     <button
       v-else-if="type === 'profile'"
@@ -100,6 +114,7 @@
     disabled?: boolean;
     icon?: string;
     data?: object;
+    bgColor?: string; // background color ex: bg-blue-500
   }
 
   const props = defineProps<ButtonProps>();
